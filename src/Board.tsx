@@ -3,6 +3,7 @@ import {useEffect} from "react";
 import {
   closestCenter,
   DndContext,
+  DragOverlay,
   KeyboardSensor,
   PointerSensor,
   useSensor,
@@ -11,13 +12,14 @@ import {
 import {
   arrayMove,
   SortableContext,
-  horizontalListSortingStrategy,
+  rectSortingStrategy,
   sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable";
 import {useState} from "react";
 
 // import {BoardItem} from "./BoardItem";
 import {ImageItem} from "./ImageItem";
+import {createPortal} from "react-dom";
 // import {Child} from "./Child";
 
 function Board(props: PropTypes) {
@@ -35,6 +37,9 @@ function Board(props: PropTypes) {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
+
+  // Drag Overlay
+  const [activeItem, setActiveItem] = useState<any>(null);
 
   async function updateDB(items: any) {
     localStorage.setItem("board-data", items.toString());
@@ -64,30 +69,47 @@ function Board(props: PropTypes) {
           sensors={sensors}
           collisionDetection={closestCenter}
           onDragEnd={handleDragEnd}
+          onDragStart={handleDragStart}
         >
-          <SortableContext
-            items={boardItems}
-            strategy={horizontalListSortingStrategy}
-          >
+          <SortableContext items={boardItems} strategy={rectSortingStrategy}>
             {boardItems.map((item: any) => {
               return (
                 <ImageItem
                   key={item.id}
                   id={item.id}
-                  position={item.position}
-                  content={item.content}
+                  item={item}
                   options={options}
                 />
               );
             })}
           </SortableContext>
+          {createPortal(
+            <DragOverlay>
+              {activeItem && (
+                <ImageItem
+                  key={activeItem.id}
+                  id={activeItem.id}
+                  item={activeItem}
+                  options={options}
+                />
+              )}
+            </DragOverlay>,
+            document.body
+          )}
         </DndContext>
       </div>
     </div>
   );
 
-  async function handleDragEnd(event: any) {
+  function handleDragStart(event: any) {
+    const {active} = event;
+    console.log(event);
+    setActiveItem(active.data.current.image);
+  }
+
+  function handleDragEnd(event: any) {
     const {active, over} = event;
+    setActiveItem(null);
 
     if (active.id !== over.id) {
       setBoardItems((items: any) => {

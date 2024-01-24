@@ -5,11 +5,19 @@ import DragIcon from "./assets/drag-icon.svg";
 import OptionsIcon from "./assets/more-options.svg";
 
 export function ImageItem(props: Readonly<PropTypes>) {
-  const {position, options} = props;
+  // options are the functions when click the [...] more options panel
+  // image item => call it image
+  const {options, item: image} = props;
 
   // DND-sortable
-  const {attributes, listeners, setNodeRef, transform, transition} =
-    useSortable({id: position});
+  const {attributes, listeners, setNodeRef, transform, transition, isDragging} =
+    useSortable({
+      id: image.position,
+      data: {
+        type: "image",
+        image,
+      },
+    });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -47,20 +55,24 @@ export function ImageItem(props: Readonly<PropTypes>) {
 
   // Editing Logic
   const [editing, setEditing] = useState(false);
-  const [editedImageUrl, setEditedImageUrl] = useState<string>(props.content);
+  const [editedImageUrl, setEditedImageUrl] = useState<string>(image.content);
   const handleEditClick = () => {
     setEditing(true);
   };
 
   const handleSave = () => {
-    options.editItem(position, editedImageUrl);
+    options.editItem(image.position, editedImageUrl);
     setEditing(false);
   };
 
   const handleCancel = () => {
     setEditing(false);
-    setEditedImageUrl(props.content);
+    setEditedImageUrl(image.content);
   };
+
+  if (isDragging) { 
+    return <div className="drag-placeholder"></div>
+  }
 
   return (
     <div className="image-item" ref={setNodeRef} style={style}>
@@ -141,8 +153,10 @@ type OptionType = {
 type PropTypes = {
   key: null | number | string;
   id: any;
-  position: number;
-  content: string;
+  item: {
+    position: number;
+    content: string;
+  };
   options: OptionType;
   // children?: ReactNode;
 };
