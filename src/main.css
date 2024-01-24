@@ -26,6 +26,7 @@
   /* center */
   display: flex;
   position: relative;
+  margin-bottom: 100px;
 }
 
 .image-item > img {
@@ -74,7 +75,7 @@
 .options {
   /* sizing */
   width: 100px;
-  height: 60px;
+  height: 65px;
 
   /* Style */
   background-color: #f3f3f3;
@@ -91,26 +92,72 @@
 
 .delete-icon {
   color: #000000;
-  border-radius: 5px;
+  border-radius: 10px 10px 0px 0px;
+
   width: 100%;
   height: 30px;
-  padding: 0;
+  padding-top: 4px;
 
   /* position */
   position: absolute;
-  top: 0;
+  top: 0px;
   right: 0;
+
+  &:hover {
+    background-color: #b8b8b8;
+  }
 }
 
 .edit-icon {
   color: #000000;
-  border-radius: 5px;
+  border-radius: 0 0px 10px 10px;
   width: 100%;
   height: 30px;
-  padding: 0;
+  padding-top: 4px;
 
   /* position */
   position: absolute;
-  top: 30px;
+  top: 31px;
   right: 0;
+
+  &:hover {
+    background-color: #b8b8b8;
+  }
+}
+
+/* Image Editing  */
+.image-url-input {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  /* Styling */
+  color: #f0f0f0;
+  border-radius: 10px;
+  padding: 10px 20px;
+  width: 70%;
+
+  /* Display */
+  input {
+    color: #000000;
+    background: #ffffff;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+
+    width: 95%;
+    padding: 8px 5px;
+
+    margin: 0 auto;
+
+    margin-bottom: 8px;
+  }
+}
+
+.image-url-input button {
+  font-size: 11px;
+
+  border-radius: 3px;
+  margin: 0 5px;
 }

@@ -18,6 +18,7 @@ import {useState} from "react";
 
 // import {BoardItem} from "./BoardItem";
 import {ImageItem} from "./ImageItem";
+// import {Child} from "./Child";
 
 function Board(props: PropTypes) {
   const {items} = props;
@@ -47,14 +48,14 @@ function Board(props: PropTypes) {
   return (
     <div>
       <div>
-        {boardItems.map((item: any) => (
-          <div>
+        {boardItems.map((item: any, i) => (
+          <div key={i}>
             ID: {item.id} | POSITION: {item.position} | TYPE: {item.type} |
             CONTENT: {item.content}
           </div>
         ))}
       </div>
-      <div>Original Photo: </div>
+      {/* <div>Original Photo: </div> */}
       <div>
         {/* <img src="https://picsum.photos/id/421/550/650" alt="img" /> */}
       </div>
@@ -68,7 +69,7 @@ function Board(props: PropTypes) {
             items={boardItems}
             strategy={horizontalListSortingStrategy}
           >
-            {boardItems.map((item) => {
+            {boardItems.map((item: any) => {
               return (
                 <ImageItem
                   key={item.id}
@@ -87,8 +88,6 @@ function Board(props: PropTypes) {
 
   async function handleDragEnd(event: any) {
     const {active, over} = event;
-    console.log(active.id);
-    console.log(over.id);
 
     if (active.id !== over.id) {
       setBoardItems((items: any) => {

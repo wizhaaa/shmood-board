@@ -1,10 +1,10 @@
-import {ReactNode, useState} from "react";
+import {useState} from "react";
 import {useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
 import DragIcon from "./assets/drag-icon.svg";
 import OptionsIcon from "./assets/more-options.svg";
 
-export function ImageItem(props: Readonly<PropTypes>) {
+export function TextItem(props: Readonly<PropTypes>) {
   const {position, options} = props;
 
   // DND-sortable
@@ -20,47 +20,9 @@ export function ImageItem(props: Readonly<PropTypes>) {
   // will be passed as a prop (prop.itemWidth)
   // const itemWidth = 250;
   // Image sizing
-  const [dims, setDims] = useState<any>({
-    height: 0,
-    width: 0,
-  });
-  function onImageLoad({target: img}: any) {
-    setDims({
-      height: img.naturalHeight,
-      width: img.naturalWidth,
-    });
-  }
-
-  const imgStyleTall: any = {
-    height: `400px`,
-    objectFit: "fit",
-  };
-
-  const imgStyleWide: any = {
-    width: "400px",
-    height: "auto",
-    objectFit: "scale-down",
-  };
 
   // Show Options
   const [showOptions, setShowOptions] = useState(false);
-
-  // Editing Logic
-  const [editing, setEditing] = useState(false);
-  const [editedImageUrl, setEditedImageUrl] = useState<string>(props.content);
-  const handleEditClick = () => {
-    setEditing(true);
-  };
-
-  const handleSave = () => {
-    options.editItem(position, editedImageUrl);
-    setEditing(false);
-  };
-
-  const handleCancel = () => {
-    setEditing(false);
-    setEditedImageUrl(props.content);
-  };
 
   return (
     <div className="image-item" ref={setNodeRef} style={style}>
@@ -78,14 +40,7 @@ export function ImageItem(props: Readonly<PropTypes>) {
         onClick={() => setShowOptions((s) => !s)}
       />
       {showOptions && <Options />}
-      {editing && <NewImageInput />}
-
-      <img
-        style={dims.height >= dims.weight ? imgStyleTall : imgStyleWide}
-        src="https://picsum.photos/id/421/450/950"
-        alt="img"
-        onLoad={onImageLoad}
-      />
+      Text -TODO INPUT
     </div>
   );
 
@@ -104,30 +59,12 @@ export function ImageItem(props: Readonly<PropTypes>) {
         <div
           className="edit-icon"
           onClick={() => {
-            handleEditClick();
+            options.editItem(position, "new");
             setShowOptions((s) => !s);
           }}
         >
           Edit
         </div>
-      </div>
-    );
-  }
-
-  function NewImageInput() {
-    return (
-      <div className="image-url-input">
-        <input
-          type="text"
-          value={editedImageUrl}
-          onChange={(e) => setEditedImageUrl(e.target.value)}
-        />
-        <button className="save-button" onClick={handleSave}>
-          Save
-        </button>
-        <button className="close-button" onClick={handleCancel}>
-          Cancel
-        </button>
       </div>
     );
   }
@@ -142,7 +79,6 @@ type PropTypes = {
   key: null | number | string;
   id: any;
   position: number;
-  content: string;
+  content: string | number;
   options: OptionType;
-  // children?: ReactNode;
 };
