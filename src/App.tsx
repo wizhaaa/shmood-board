@@ -3,6 +3,9 @@ import {useEffect, useState} from "react";
 import Board from "./Board";
 import "./main.css";
 
+const lorem =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
 const LOADED_DATA = [
   {
     id: "1asdfsdaf",
@@ -20,7 +23,7 @@ const LOADED_DATA = [
     id: 3,
     position: 3,
     type: "text",
-    content: "https://picsum.photos/id/423/450/950",
+    content: lorem,
   },
   {
     id: "4s8923rpqw",
@@ -38,7 +41,7 @@ const LOADED_DATA = [
     id: "6ekkew",
     position: 6,
     type: "text",
-    content: "https://picsum.photos/id/426/1050/250",
+    content: lorem,
   },
   {
     id: "7ok",
