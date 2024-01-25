@@ -168,3 +168,9 @@
   border-radius: 3px;
   margin: 0 5px;
 }
+
+.invalid-img-text {
+  display: grid;
+  place-self: center;
+  margin: 0 auto;
+}

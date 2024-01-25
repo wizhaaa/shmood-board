@@ -5,13 +5,13 @@ import "./main.css";
 
 const LOADED_DATA = [
   {
-    id: 1,
+    id: "1asdfsdaf",
     position: 1,
     type: "image",
     content: "https://picsum.photos/id/421/450/950",
   },
   {
-    id: 2,
+    id: "2zzz",
     position: 2,
     type: "image",
     content: "https://picsum.photos/id/419/950/350",
@@ -23,7 +23,7 @@ const LOADED_DATA = [
     content: "https://picsum.photos/id/423/450/950",
   },
   {
-    id: 4,
+    id: "4s8923rpqw",
     position: 4,
     type: "website",
     content: "https://picsum.photos/id/424/950/450",
@@ -35,13 +35,13 @@ const LOADED_DATA = [
     content: "https://picsum.photos/id/425/950/450",
   },
   {
-    id: 6,
+    id: "6ekkew",
     position: 6,
     type: "text",
     content: "https://picsum.photos/id/426/1050/250",
   },
   {
-    id: 7,
+    id: "7ok",
     position: 7,
     type: "website",
     content: "https://picsum.photos/id/427/150/1050",

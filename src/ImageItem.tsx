@@ -1,4 +1,4 @@
-import {ReactNode, useState} from "react";
+import {ReactNode, useEffect, useState} from "react";
 import {useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
 import DragIcon from "./assets/drag-icon.svg";
@@ -7,7 +7,7 @@ import OptionsIcon from "./assets/more-options.svg";
 export function ImageItem(props: Readonly<PropTypes>) {
   // options are the functions when click the [...] more options panel
   // image item => call it image
-  const {options, item} = props;
+  const {options, item, children} = props;
 
   // DND-sortable
   const {attributes, listeners, setNodeRef, transform, transition, isDragging} =
@@ -24,7 +24,7 @@ export function ImageItem(props: Readonly<PropTypes>) {
     transition,
   };
 
-  // My Logic.
+  // Image Rendering Logic
   // will be passed as a prop (prop.itemWidth)
   // const itemWidth = 250;
   // Image sizing
@@ -32,6 +32,26 @@ export function ImageItem(props: Readonly<PropTypes>) {
     height: 0,
     width: 0,
   });
+  const [validImage, setValidImage] = useState(true);
+
+  async function isImageUrl(url) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = url;
+    });
+  }
+
+  async function checkImageValidity() {
+    const isValid = await isImageUrl(item.content);
+    setValidImage(isValid);
+  }
+
+  useEffect(() => {
+    checkImageValidity();
+  });
+
   function onImageLoad({target: img}: any) {
     setDims({
       height: img.naturalHeight,
@@ -61,7 +81,7 @@ export function ImageItem(props: Readonly<PropTypes>) {
   };
 
   const handleSave = () => {
-    options?.editItem(item.position, editedImageUrl);
+    options?.editItem(item.id, editedImageUrl);
     setEditing(false);
   };
 
@@ -71,7 +91,7 @@ export function ImageItem(props: Readonly<PropTypes>) {
   };
 
   const draggingStyle = {
-    opacity: "0.5",
+    opacity: "0.1",
   };
 
   return (
@@ -94,14 +114,34 @@ export function ImageItem(props: Readonly<PropTypes>) {
         onClick={() => setShowOptions((s) => !s)}
       />
       {showOptions && <Options />}
-      {editing && <NewImageInput />}
+      {editing && (
+        <div className="image-url-input">
+          <input
+            type="text"
+            value={editedImageUrl}
+            onChange={(e) => setEditedImageUrl(e.target.value)}
+            autoFocus
+          ></input>
+          <button className="save-button" onClick={handleSave}>
+            Save
+          </button>
+          <button className="close-button" onClick={handleCancel}>
+            Cancel
+          </button>
+        </div>
+      )}
+      {children}
 
-      <img
-        style={dims.height >= dims.weight ? imgStyleTall : imgStyleWide}
-        src={item.content}
-        alt="img"
-        onLoad={onImageLoad}
-      />
+      {validImage && (
+        <img
+          style={dims.height >= dims.weight ? imgStyleTall : imgStyleWide}
+          src={item.content}
+          alt="img"
+          onLoad={onImageLoad}
+        />
+      )}
+
+      <div className="invalid-img-text">{!validImage && "X"}</div>
     </div>
   );
 
@@ -129,25 +169,6 @@ export function ImageItem(props: Readonly<PropTypes>) {
       </div>
     );
   }
-
-  function NewImageInput() {
-    return (
-      <div className="image-url-input">
-        <input
-          type="text"
-          value={editedImageUrl}
-          onChange={(e) => setEditedImageUrl(e.target.value)}
-          autoFocus
-        />
-        <button className="save-button" onClick={handleSave}>
-          Save
-        </button>
-        <button className="close-button" onClick={handleCancel}>
-          Cancel
-        </button>
-      </div>
-    );
-  }
 }
 
 type OptionType = {
@@ -164,5 +185,5 @@ type PropTypes = {
     content: string;
   };
   options?: OptionType;
-  // children?: ReactNode;
+  children?: ReactNode;
 };

@@ -1,5 +1,5 @@
 import "./child.css";
-export function Child() {
-  console.log("child");
-  return <div className="child"> Child! </div>;
+export function Child(props: any) {
+  const {text} = props;
+  return <div className="child"> Child: {text} </div>;
 }
