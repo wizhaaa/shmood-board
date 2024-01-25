@@ -22,6 +22,7 @@ import {useState} from "react";
 
 // import {BoardItem} from "./BoardItem";
 import {ImageItem} from "./ImageItem";
+import {TextItem} from "./TextItem";
 import {Child} from "./Child";
 
 function Board(props: PropTypes) {
@@ -71,21 +72,35 @@ function Board(props: PropTypes) {
         >
           <SortableContext items={boardItems}>
             {boardItems.map((item: any) => {
-              return (
-                <ImageItem key={item.id} item={item} options={options}>
-                  {" "}
-                  <Child text={item.content}></Child>
-                </ImageItem>
-              );
+              if (item.type === "image") {
+                return (
+                  <ImageItem key={item.id} item={item} options={options}>
+                    {" "}
+                    <Child text={item.content} />
+                  </ImageItem>
+                );
+              } else if (item.type === "text") {
+                return (
+                  <TextItem key={item.id} item={item} options={options}>
+                    <Child text={item.content} />
+                  </TextItem>
+                );
+              }
             })}
           </SortableContext>
-          <DragOverlay>
-            {activeItem && <ImageItem item={activeItem} />}
-          </DragOverlay>
+          <DragOverlay>{activeItem && <DragItem />}</DragOverlay>
         </DndContext>
       </div>
     </div>
   );
+
+  function DragItem() {
+    if (activeItem.type === "image") {
+      return <ImageItem item={activeItem} />;
+    } else if (activeItem.type === "text") {
+      return <TextItem item={activeItem} />;
+    }
+  }
 
   function handleDragStart(event: any) {
     const {active} = event;
@@ -121,21 +136,16 @@ function Board(props: PropTypes) {
   }
 
   function handleDragEnd(event: DragEndEvent) {
-    console.log("DRAG END === START");
     const {active, over} = event;
 
     // DOES NOT hit most of the time due to handleDragMove() handler.
     if (over && active.id !== over.id) {
-      console.log("DRAG END === FINDING INDEX");
       // find index
       const activeIndex = boardItems.findIndex((item) => item.id === active.id);
       const overIndex = boardItems.findIndex((item) => item.id === over.id);
-      // active.position = over.position
-      // over.position += 1
+
       const activeItem = searchItemById(active.id);
       const overItem = searchItemById(over.id);
-      console.log(`active: ${activeItem}`);
-      console.log(`over: ${over}`);
 
       activeItem!.position = overIndex + 1;
       overItem!.position = overIndex + 1;
