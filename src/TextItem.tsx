@@ -1,46 +1,108 @@
-import {useState} from "react";
+import {ReactNode, useEffect, useState} from "react";
 import {useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
 import DragIcon from "./assets/drag-icon.svg";
 import OptionsIcon from "./assets/more-options.svg";
 
 export function TextItem(props: Readonly<PropTypes>) {
-  const {position, options} = props;
+  // options are the functions when click the [...] more options panel
+  // image item => call it image
+  const {options, item, children} = props;
 
   // DND-sortable
-  const {attributes, listeners, setNodeRef, transform, transition} =
-    useSortable({id: position});
+  const {attributes, listeners, setNodeRef, transform, transition, isDragging} =
+    useSortable({
+      id: item.id,
+      data: {
+        type: "text",
+        item: item,
+      },
+    });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
   };
 
-  // My Logic.
-  // will be passed as a prop (prop.itemWidth)
   // const itemWidth = 250;
-  // Image sizing
 
   // Show Options
   const [showOptions, setShowOptions] = useState(false);
 
+  // Editing Logic
+  const [editing, setEditing] = useState(false);
+  const [editedText, setEditedText] = useState<string>(item.content);
+  const handleEditClick = () => {
+    setEditing(true);
+  };
+
+  const handleSave = () => {
+    options?.editItem(item.id, editedText);
+    setEditing(false);
+  };
+
+  const handleCancel = () => {
+    setEditing(false);
+    setEditedText(item.content);
+  };
+
+  const draggingStyle = {
+    opacity: "0.1",
+  };
+
   return (
-    <div className="image-item" ref={setNodeRef} style={style}>
-      <img
-        className="drag-icon"
-        src={DragIcon}
-        alt="drag"
-        {...attributes}
-        {...listeners}
-      />
-      <img
-        className="options-icon"
-        src={OptionsIcon}
-        alt="options"
-        onClick={() => setShowOptions((s) => !s)}
-      />
+    <div
+      className="image-item"
+      ref={setNodeRef}
+      style={{...style, ...(isDragging ? draggingStyle : {})}}
+    >
+      {!editing && (
+        <>
+          {" "}
+          <img
+            className="drag-icon"
+            src={DragIcon}
+            alt="drag"
+            {...attributes}
+            {...listeners}
+          />
+          <img
+            className="options-icon"
+            src={OptionsIcon}
+            alt="options"
+            onClick={() => {
+              console.log("edit text");
+              setShowOptions((s) => !s);
+            }}
+          />
+        </>
+      )}
       {showOptions && <Options />}
-      Text -TODO INPUT
+      {editing && (
+        <div className="text-item-input-container">
+          <textarea
+            className="text-item-input"
+            value={editedText}
+            onChange={(e) => setEditedText(e.target.value)}
+            autoFocus
+            rows={14}
+            spellCheck="false"
+          ></textarea>
+          <button className="save-button" onClick={handleSave}>
+            Save
+          </button>
+          <button className="close-button" onClick={handleCancel}>
+            Close
+          </button>
+        </div>
+      )}
+      {children}
+
+      {!editing && (
+        <div className="text-item-content-container">
+          <div className="text-item-content">{item.content}</div>
+        </div>
+      )}
     </div>
   );
 
@@ -50,7 +112,7 @@ export function TextItem(props: Readonly<PropTypes>) {
         <div
           className="delete-icon"
           onClick={() => {
-            options.deleteItem(position);
+            options?.deleteItem(item.position);
             setShowOptions((s) => !s);
           }}
         >
@@ -59,7 +121,7 @@ export function TextItem(props: Readonly<PropTypes>) {
         <div
           className="edit-icon"
           onClick={() => {
-            options.editItem(position, "new");
+            handleEditClick();
             setShowOptions((s) => !s);
           }}
         >
@@ -76,9 +138,13 @@ type OptionType = {
 };
 
 type PropTypes = {
-  key: null | number | string;
-  id: any;
-  position: number;
-  content: string | number;
-  options: OptionType;
+  // key: null | number | string;
+  id?: any;
+  item: {
+    id: number | string;
+    position: number;
+    content: string;
+  };
+  options?: OptionType;
+  children?: ReactNode;
 };
