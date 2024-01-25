@@ -5,46 +5,46 @@ import "./main.css";
 
 const LOADED_DATA = [
   {
-    id: 0,
-    position: 0,
-    type: "image",
-    content: "content",
-  },
-  {
     id: 1,
     position: 1,
     type: "image",
-    content: "content",
+    content: "https://picsum.photos/id/421/450/950",
   },
   {
     id: 2,
     position: 2,
-    type: "text",
-    content: "content",
+    type: "image",
+    content: "https://picsum.photos/id/419/950/350",
   },
   {
     id: 3,
     position: 3,
-    type: "website",
-    content: "content",
+    type: "text",
+    content: "https://picsum.photos/id/423/450/950",
   },
   {
     id: 4,
     position: 4,
-    type: "image",
-    content: "content",
+    type: "website",
+    content: "https://picsum.photos/id/424/950/450",
   },
   {
     id: 5,
     position: 5,
-    type: "text",
-    content: "content",
+    type: "image",
+    content: "https://picsum.photos/id/425/950/450",
   },
   {
     id: 6,
     position: 6,
+    type: "text",
+    content: "https://picsum.photos/id/426/1050/250",
+  },
+  {
+    id: 7,
+    position: 7,
     type: "website",
-    content: "content",
+    content: "https://picsum.photos/id/427/150/1050",
   },
 ];
 

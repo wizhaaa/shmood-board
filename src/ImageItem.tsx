@@ -7,15 +7,15 @@ import OptionsIcon from "./assets/more-options.svg";
 export function ImageItem(props: Readonly<PropTypes>) {
   // options are the functions when click the [...] more options panel
   // image item => call it image
-  const {options, item: image} = props;
+  const {options, item} = props;
 
   // DND-sortable
   const {attributes, listeners, setNodeRef, transform, transition, isDragging} =
     useSortable({
-      id: image.position,
+      id: item.id,
       data: {
         type: "image",
-        image,
+        item: item,
       },
     });
 
@@ -55,27 +55,31 @@ export function ImageItem(props: Readonly<PropTypes>) {
 
   // Editing Logic
   const [editing, setEditing] = useState(false);
-  const [editedImageUrl, setEditedImageUrl] = useState<string>(image.content);
+  const [editedImageUrl, setEditedImageUrl] = useState<string>(item.content);
   const handleEditClick = () => {
     setEditing(true);
   };
 
   const handleSave = () => {
-    options.editItem(image.position, editedImageUrl);
+    options?.editItem(item.position, editedImageUrl);
     setEditing(false);
   };
 
   const handleCancel = () => {
     setEditing(false);
-    setEditedImageUrl(image.content);
+    setEditedImageUrl(item.content);
   };
 
-  if (isDragging) { 
-    return <div className="drag-placeholder"></div>
-  }
+  const draggingStyle = {
+    opacity: "0.5",
+  };
 
   return (
-    <div className="image-item" ref={setNodeRef} style={style}>
+    <div
+      className="image-item"
+      ref={setNodeRef}
+      style={{...style, ...(isDragging ? draggingStyle : {})}}
+    >
       <img
         className="drag-icon"
         src={DragIcon}
@@ -94,7 +98,7 @@ export function ImageItem(props: Readonly<PropTypes>) {
 
       <img
         style={dims.height >= dims.weight ? imgStyleTall : imgStyleWide}
-        src="https://picsum.photos/id/421/450/950"
+        src={item.content}
         alt="img"
         onLoad={onImageLoad}
       />
@@ -107,7 +111,7 @@ export function ImageItem(props: Readonly<PropTypes>) {
         <div
           className="delete-icon"
           onClick={() => {
-            options.deleteItem(position);
+            options?.deleteItem(item.position);
             setShowOptions((s) => !s);
           }}
         >
@@ -133,6 +137,7 @@ export function ImageItem(props: Readonly<PropTypes>) {
           type="text"
           value={editedImageUrl}
           onChange={(e) => setEditedImageUrl(e.target.value)}
+          autoFocus
         />
         <button className="save-button" onClick={handleSave}>
           Save
@@ -151,12 +156,13 @@ type OptionType = {
 };
 
 type PropTypes = {
-  key: null | number | string;
-  id: any;
+  // key: null | number | string;
+  id?: any;
   item: {
+    id: number | string;
     position: number;
     content: string;
   };
-  options: OptionType;
+  options?: OptionType;
   // children?: ReactNode;
 };
