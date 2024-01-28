@@ -60,7 +60,12 @@ function App() {
   return (
     <>
       Board
-      <Board items={data} />
+      <Board
+        items={data}
+        styles={{
+          gridGap: 50,
+        }}
+      />
     </>
   );
 }

@@ -7,8 +7,20 @@
 
   /* grid */
   display: grid;
-  grid-template-columns: 440px 440px 440px;
-  grid-gap: 50px;
+  grid-template-columns: 440px;
+  place-content: center;
+}
+
+@media (min-width: 1000px) {
+  .board {
+    grid-template-columns: 440px 440px;
+  }
+}
+
+@media (min-width: 1450px) {
+  .board {
+    grid-template-columns: 440px 440px 440px;
+  }
 }
 
 .drag-placeholder {
@@ -193,12 +205,14 @@
     position: absolute;
     bottom: 10px;
     left: 100px;
+    color: #f3f3f3;
   }
 
   .close-button {
     position: absolute;
     bottom: 10px;
     right: 100px;
+    color: #f3f3f3;
   }
 }
 
@@ -262,11 +276,11 @@
 /* Hide scrollbar for Chrome, Safari and Opera */
 /* IE and Edge */
 /* Firefox */
-/* ::-webkit-scrollbar {
+::-webkit-scrollbar {
   display: none;
   -ms-overflow-style: none;
   scrollbar-width: none;
-} */
+}
 
 /* For WebKit browsers */
 ::-webkit-scrollbar {

@@ -26,7 +26,12 @@ import {TextItem} from "./TextItem";
 import {Child} from "./Child";
 
 function Board(props: PropTypes) {
-  const {items} = props;
+  const {items, styles} = props;
+  const gridGap = styles.gridGap;
+
+  const boardStyles = {
+    gridGap: gridGap,
+  };
 
   const [boardItems, setBoardItems] = useState<any>([]);
 
@@ -62,7 +67,7 @@ function Board(props: PropTypes) {
       <div>
         {/* <img src="https://picsum.photos/id/421/550/650" alt="img" /> */}
       </div>
-      <div className="board">
+      <div className="board" style={boardStyles}>
         <DndContext
           sensors={sensors}
           collisionDetection={closestCorners}
@@ -187,6 +192,9 @@ type PropTypes = {
     content: string;
     type: "image" | "text" | "website";
   }[];
+  styles: {
+    gridGap: string | number;
+  };
 };
 
 export default Board;
