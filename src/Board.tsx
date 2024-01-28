@@ -1,52 +1,46 @@
 import {useEffect} from "react";
 
 import {
-  closestCenter,
   DndContext,
   DragOverlay,
-  KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
   DragEndEvent,
+  DragStartEvent,
   closestCorners,
+  DragMoveEvent,
 } from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  rectSortingStrategy,
-  rectSwappingStrategy,
-  sortableKeyboardCoordinates,
-} from "@dnd-kit/sortable";
+import {arrayMove, SortableContext} from "@dnd-kit/sortable";
 import {useState} from "react";
 
-// import {BoardItem} from "./BoardItem";
 import {ImageItem} from "./ImageItem";
 import {TextItem} from "./TextItem";
-import {Child} from "./Child";
+
+import "./main.css";
 
 function Board(props: PropTypes) {
-  const {items, styles} = props;
+  // PROCESSING PROPS & ITEMS DATA
+  const {items, styles, minimal} = props;
   const gridGap = styles.gridGap;
 
   const boardStyles = {
     gridGap: gridGap,
   };
 
-  const [boardItems, setBoardItems] = useState<any>([]);
+  const [boardItems, setBoardItems] = useState<Item[]>([]);
 
   useEffect(() => {
     setBoardItems(items);
   }, [items]);
 
+  // DND KIT SENSORS SET UP
   const sensors = useSensors(useSensor(PointerSensor));
 
   // Drag Overlay
-  const [activeItem, setActiveItem] = useState<any>(null);
+  const [activeItem, setActiveItem] = useState<Item | null>(null);
 
-  async function updateDB(items: any) {
-    localStorage.setItem("board-data", items.toString());
-  }
+  // BASIC EDIT AND DELETE TIEMS "OPTIONS" (FUNCTIONS)
 
   const options = {
     editItem,
@@ -55,18 +49,6 @@ function Board(props: PropTypes) {
 
   return (
     <div>
-      <div>
-        {boardItems.map((item: any, i) => (
-          <div key={i}>
-            ID: {item.id} | POSITION: {item.position} | TYPE: {item.type} |
-            CONTENT: {item.content}
-          </div>
-        ))}
-      </div>
-      {/* <div>Original Photo: </div> */}
-      <div>
-        {/* <img src="https://picsum.photos/id/421/550/650" alt="img" /> */}
-      </div>
       <div className="board" style={boardStyles}>
         <DndContext
           sensors={sensors}
@@ -76,19 +58,24 @@ function Board(props: PropTypes) {
           onDragMove={handleDragMove}
         >
           <SortableContext items={boardItems}>
-            {boardItems.map((item: any) => {
+            {boardItems.map((item: Item) => {
               if (item.type === "image") {
                 return (
-                  <ImageItem key={item.id} item={item} options={options}>
-                    {" "}
-                    <Child text={item.content} />
-                  </ImageItem>
+                  <ImageItem
+                    key={item.id}
+                    item={item}
+                    options={options}
+                    minimal={minimal}
+                  ></ImageItem>
                 );
               } else if (item.type === "text") {
                 return (
-                  <TextItem key={item.id} item={item} options={options}>
-                    <Child text={item.content} />
-                  </TextItem>
+                  <TextItem
+                    key={item.id}
+                    item={item}
+                    options={options}
+                    minimal={minimal}
+                  ></TextItem>
                 );
               }
             })}
@@ -99,24 +86,26 @@ function Board(props: PropTypes) {
     </div>
   );
 
+  /** Renders the correct item tyep when a user drags based on the active item. */
   function DragItem() {
-    if (activeItem.type === "image") {
+    if (activeItem?.type === "image") {
       return <ImageItem item={activeItem} />;
-    } else if (activeItem.type === "text") {
+    } else if (activeItem?.type === "text") {
       return <TextItem item={activeItem} />;
     }
   }
 
-  function handleDragStart(event: any) {
+  function handleDragStart(event: DragStartEvent) {
     const {active} = event;
-    setActiveItem(active.data.current.item);
+    setActiveItem(active?.data?.current?.item);
   }
 
-  function searchItemById(id: UniqueIdentifier | undefined) {
+  /** Helper function to hanlde dragging */
+  function searchItemById(id: string | number) {
     return items.find((item) => item.id === id);
   }
 
-  function handleDragMove(event: any) {
+  function handleDragMove(event: DragMoveEvent) {
     const {active, over} = event;
 
     // handle sorting
@@ -163,6 +152,7 @@ function Board(props: PropTypes) {
     setActiveItem(null);
   }
 
+  /** Deletes item given their position (should be changed to ID). */
   function deleteItem(position: number) {
     // const newItems = boardItems
     //   .slice(0, position)
@@ -171,14 +161,16 @@ function Board(props: PropTypes) {
 
     // setBoardItems(newItems);
     const newItems = boardItems
-      .filter((item) => item.position !== position)
-      .map((item, index) => ({...item, position: index + 1}));
+      .filter((item: Item) => item.position !== position)
+      .map((item: Item, index: number) => ({...item, position: index + 1}));
 
     setBoardItems(newItems);
   }
 
+  /**  Edits the item given thier 
+        @param id  to new @param editedContent*/
   function editItem(id: number | string, editedContent: string) {
-    const newItems = boardItems.map((item) =>
+    const newItems = boardItems.map((item: Item) =>
       item.id === id ? {...item, content: editedContent} : item
     );
     setBoardItems(newItems);
@@ -195,6 +187,14 @@ type PropTypes = {
   styles: {
     gridGap: string | number;
   };
+  minimal: boolean;
+};
+
+type Item = {
+  id: number | string;
+  position: number;
+  content: string;
+  type: "image" | "text" | "website";
 };
 
 export default Board;

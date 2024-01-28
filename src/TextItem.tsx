@@ -1,13 +1,13 @@
-import {ReactNode, useEffect, useState} from "react";
+import {ReactNode, useState} from "react";
 import {useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
-import DragIcon from "./assets/drag-icon.svg";
-import OptionsIcon from "./assets/more-options.svg";
+import DragIcon from "../assets/drag-icon.svg";
+import OptionsIcon from "../assets/more-options.svg";
 
 export function TextItem(props: Readonly<PropTypes>) {
   // options are the functions when click the [...] more options panel
   // image item => call it image
-  const {options, item, children} = props;
+  const {options, item, children, minimal} = props;
 
   // DND-sortable
   const {attributes, listeners, setNodeRef, transform, transition, isDragging} =
@@ -23,8 +23,6 @@ export function TextItem(props: Readonly<PropTypes>) {
     transform: CSS.Transform.toString(transform),
     transition,
   };
-
-  // const itemWidth = 250;
 
   // Show Options
   const [showOptions, setShowOptions] = useState(false);
@@ -56,7 +54,7 @@ export function TextItem(props: Readonly<PropTypes>) {
       ref={setNodeRef}
       style={{...style, ...(isDragging ? draggingStyle : {})}}
     >
-      {!editing && (
+      {!editing && !minimal && (
         <>
           {" "}
           <img
@@ -134,12 +132,12 @@ export function TextItem(props: Readonly<PropTypes>) {
 
 type OptionType = {
   deleteItem: (arg0: number) => void;
-  editItem: (arg0: number, arg1: string) => void;
+  editItem: (arg0: number | string, arg1: string) => void;
 };
 
 type PropTypes = {
   // key: null | number | string;
-  id?: any;
+  id?: string | number;
   item: {
     id: number | string;
     position: number;
@@ -147,4 +145,5 @@ type PropTypes = {
   };
   options?: OptionType;
   children?: ReactNode;
+  minimal?: boolean;
 };

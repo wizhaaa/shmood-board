@@ -1,15 +1,20 @@
-import {ReactNode, useEffect, useState} from "react";
+import {CSSProperties, ReactNode, useEffect, useState} from "react";
 import {useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
 import DragIcon from "./assets/drag-icon.svg";
 import OptionsIcon from "./assets/more-options.svg";
 
+/**  Renders an Image Item on a board.
+ * @param options - default to edit, delete
+ * @param item - the item object itself
+ * @param children - any children to render as a "footer"
+ */
 export function ImageItem(props: Readonly<PropTypes>) {
   // options are the functions when click the [...] more options panel
   // image item => call it image
-  const {options, item, children} = props;
+  const {options, item, children, minimal} = props;
 
-  // DND-sortable
+  // DND-sortable setup
   const {attributes, listeners, setNodeRef, transform, transition, isDragging} =
     useSortable({
       id: item.id,
@@ -24,17 +29,9 @@ export function ImageItem(props: Readonly<PropTypes>) {
     transition,
   };
 
-  // Image Rendering Logic
-  // will be passed as a prop (prop.itemWidth)
-  // const itemWidth = 250;
-  // Image sizing
-  const [dims, setDims] = useState<any>({
-    height: 0,
-    width: 0,
-  });
-  const [validImage, setValidImage] = useState(true);
+  const [validImage, setValidImage] = useState<boolean | unknown>(true);
 
-  async function isImageUrl(url) {
+  async function isImageUrl(url: string) {
     return new Promise((resolve) => {
       const img = new Image();
       img.onload = () => resolve(true);
@@ -52,19 +49,19 @@ export function ImageItem(props: Readonly<PropTypes>) {
     checkImageValidity();
   });
 
-  function onImageLoad({target: img}: any) {
-    setDims({
-      height: img.naturalHeight,
-      width: img.naturalWidth,
-    });
-  }
+  // function onImageLoad(event: SyntheticEvent<HTMLImageElement>) {
+  //   const img = event.target as HTMLImageElement;
+  //   setDims({
+  //     height: img.naturalHeight,
+  //     width: img.naturalWidth,
+  //   });
+  // }
 
-  const imgStyleTall: any = {
-    height: `400px`,
-    objectFit: "fit",
-  };
+  // const imgStyleTall: CSSProperties = {
+  //   height: `400px`,
+  // };
 
-  const imgStyleWide: any = {
+  const imgStyleWide: CSSProperties = {
     width: "400px",
     height: "auto",
     objectFit: "scale-down",
@@ -100,19 +97,24 @@ export function ImageItem(props: Readonly<PropTypes>) {
       ref={setNodeRef}
       style={{...style, ...(isDragging ? draggingStyle : {})}}
     >
-      <img
-        className="drag-icon"
-        src={DragIcon}
-        alt="drag"
-        {...attributes}
-        {...listeners}
-      />
-      <img
-        className="options-icon"
-        src={OptionsIcon}
-        alt="options"
-        onClick={() => setShowOptions((s) => !s)}
-      />
+      {!minimal && (
+        <>
+          <img
+            className="drag-icon"
+            src={DragIcon}
+            alt="drag"
+            {...attributes}
+            {...listeners}
+          />
+          <img
+            className="options-icon"
+            src={OptionsIcon}
+            alt="options"
+            onClick={() => setShowOptions((s) => !s)}
+          />
+        </>
+      )}
+
       {showOptions && <Options />}
       {editing && (
         <div className="image-url-input">
@@ -132,14 +134,7 @@ export function ImageItem(props: Readonly<PropTypes>) {
       )}
       {children}
 
-      {validImage && (
-        <img
-          style={dims.height >= dims.weight ? imgStyleTall : imgStyleWide}
-          src={item.content}
-          alt="img"
-          onLoad={onImageLoad}
-        />
-      )}
+      {validImage! && <img style={imgStyleWide} src={item.content} alt="img" />}
 
       <div className="invalid-img-text">{!validImage && "X"}</div>
     </div>
@@ -173,12 +168,11 @@ export function ImageItem(props: Readonly<PropTypes>) {
 
 type OptionType = {
   deleteItem: (arg0: number) => void;
-  editItem: (arg0: number, arg1: string) => void;
+  editItem: (arg0: number | string, arg1: string) => void;
 };
 
 type PropTypes = {
-  // key: null | number | string;
-  id?: any;
+  id?: string | number;
   item: {
     id: number | string;
     position: number;
@@ -186,4 +180,16 @@ type PropTypes = {
   };
   options?: OptionType;
   children?: ReactNode;
+  minimal?: boolean;
 };
+
+// type Item = {
+//   id: number | string;
+//   position: number;
+//   content: string;
+// };
+
+// type Dimensions = {
+//   height: number;
+//   width: number;
+// };
