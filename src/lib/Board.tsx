@@ -19,6 +19,15 @@ import {TextItem} from "./TextItem";
 
 import "./board.css";
 
+/** Board component.
+ * @props items : Item[]
+ * @props itemWidth : number
+ * @props styles : {gridGap : number}
+ * @props minimal? : boolean
+ * @props onReorder? : (updatedItems : Item[] ) => void;
+ * @props className? : string
+ * @props footerContent : JSX.Element | React.ReactNode | React.ReactElement
+ */
 export default function Board(props: BoardProps) {
   // PROCESSING PROPS & ITEMS DATA
   const {
