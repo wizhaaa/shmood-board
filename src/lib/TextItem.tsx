@@ -50,22 +50,21 @@ export function TextItem(props: Readonly<PropTypes>) {
 
   return (
     <div
-      className="image-item"
+      className="wz-image-item"
       ref={setNodeRef}
       style={{...style, ...(isDragging ? draggingStyle : {})}}
     >
       {!editing && !minimal && (
         <>
-          {" "}
           <img
-            className="drag-icon"
+            className="wz-drag-icon"
             src={DragIcon}
             alt="drag"
             {...attributes}
             {...listeners}
           />
           <img
-            className="options-icon"
+            className="wz-options-icon"
             src={OptionsIcon}
             alt="options"
             onClick={() => {
@@ -77,19 +76,19 @@ export function TextItem(props: Readonly<PropTypes>) {
       )}
       {showOptions && <Options />}
       {editing && (
-        <div className="text-item-input-container">
+        <div className="wz-text-item-input-container">
           <textarea
-            className="text-item-input"
+            className="wz-text-item-input"
             value={editedText}
             onChange={(e) => setEditedText(e.target.value)}
             autoFocus
             rows={14}
             spellCheck="false"
           ></textarea>
-          <button className="save-button" onClick={handleSave}>
+          <button className="wz-button wz-save-button" onClick={handleSave}>
             Save
           </button>
-          <button className="close-button" onClick={handleCancel}>
+          <button className="wz-button wz-close-button" onClick={handleCancel}>
             Close
           </button>
         </div>
@@ -97,8 +96,8 @@ export function TextItem(props: Readonly<PropTypes>) {
       {children}
 
       {!editing && (
-        <div className="text-item-content-container">
-          <div className="text-item-content">{item.content}</div>
+        <div className="wz-text-item-content-container">
+          <div className="wz-text-item-content">{item.content}</div>
         </div>
       )}
     </div>
@@ -106,9 +105,9 @@ export function TextItem(props: Readonly<PropTypes>) {
 
   function Options() {
     return (
-      <div className="options">
+      <div className="wz-options">
         <div
-          className="delete-icon"
+          className="wz-delete-icon"
           onClick={() => {
             options?.deleteItem(item.position);
             setShowOptions((s) => !s);
@@ -117,7 +116,7 @@ export function TextItem(props: Readonly<PropTypes>) {
           Delete
         </div>
         <div
-          className="edit-icon"
+          className="wz-edit-icon"
           onClick={() => {
             handleEditClick();
             setShowOptions((s) => !s);
@@ -136,7 +135,6 @@ type OptionType = {
 };
 
 type PropTypes = {
-  // key: null | number | string;
   id?: string | number;
   item: {
     id: number | string;

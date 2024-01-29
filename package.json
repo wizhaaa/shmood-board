@@ -1,22 +1,59 @@
 {
-  "name": "dndkit-board",
-  "private": true,
-  "version": "0.0.0",
+  "name": "shmood-dnd-board",
+  "version": "1.0.4",
+  "description": "Simple Drag and Drag Board for Shmood.",
+  "license": "MIT",
+  "author": "Will Zhang",
   "type": "module",
+  "files": [
+    "dist",
+    "src/lib/board.css",
+    "README.md"
+  ],
+  "main": "./dist/shmood-dnd-board.umd.cjs",
+  "types": "./src/lib/main.d.ts",
+  "module": "./dist/shmood-dnd-board.js",
+  "exports": {
+    ".": {
+      "types": "./src/lib/main.d.ts",
+      "import": "./dist/shmood-dnd-board.js",
+      "require": "./dist/shmood-dnd-board.umd.cjs"
+    },
+    "./shmood-board.css": "./src/lib/board.css"
+  },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build && cp ./src/lib/board.css ./dist/",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true,
+      "es2020": true
+    }
   },
   "dependencies": {
     "@dnd-kit/core": "^6.1.0",
     "@dnd-kit/sortable": "^8.0.0",
     "@dnd-kit/utilities": "^3.2.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "path": "^0.12.7"
   },
   "devDependencies": {
+    "@types/node": "^20.11.10",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
@@ -25,6 +62,8 @@
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "typescript": "^5.2.2",
     "vite": "^5.0.8"
   }

@@ -22,6 +22,6 @@ export function BoardItem(props: Readonly<PropTypes>) {
 
 type PropTypes = {
   key: null | number | string;
-  id: any;
+  id: string | number;
   content: string | number;
 };

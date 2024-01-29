@@ -17,7 +17,7 @@ import {useState} from "react";
 import {ImageItem} from "./ImageItem";
 import {TextItem} from "./TextItem";
 
-import "./main.css";
+import "./board.css";
 
 function Board(props: PropTypes) {
   // PROCESSING PROPS & ITEMS DATA
@@ -48,8 +48,8 @@ function Board(props: PropTypes) {
   };
 
   return (
-    <div>
-      <div className="board" style={boardStyles}>
+    <div className="wz-root">
+      <div className="wz-board" style={boardStyles}>
         <DndContext
           sensors={sensors}
           collisionDetection={closestCorners}

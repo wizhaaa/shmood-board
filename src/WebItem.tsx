@@ -1,4 +1,4 @@
-import {ReactNode, useEffect, useState} from "react";
+import {ReactNode, useState} from "react";
 import {useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
 import DragIcon from "./assets/drag-icon.svg";
@@ -134,12 +134,11 @@ export function WebItem(props: Readonly<PropTypes>) {
 
 type OptionType = {
   deleteItem: (arg0: number) => void;
-  editItem: (arg0: number, arg1: string) => void;
+  editItem: (arg0: number | string, arg1: string) => void;
 };
 
 type PropTypes = {
-  // key: null | number | string;
-  id?: any;
+  id?: string | number;
   item: {
     id: number | string;
     position: number;

@@ -1,8 +1,8 @@
 import {CSSProperties, ReactNode, useEffect, useState} from "react";
 import {useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
-import DragIcon from "./assets/drag-icon.svg";
-import OptionsIcon from "./assets/more-options.svg";
+import DragIcon from "../assets/drag-icon.svg";
+import OptionsIcon from "../assets/more-options.svg";
 
 /**  Renders an Image Item on a board.
  * @param options - default to edit, delete
@@ -93,21 +93,21 @@ export function ImageItem(props: Readonly<PropTypes>) {
 
   return (
     <div
-      className="image-item"
+      className="wz-image-item"
       ref={setNodeRef}
       style={{...style, ...(isDragging ? draggingStyle : {})}}
     >
       {!minimal && (
         <>
           <img
-            className="drag-icon"
+            className="wz-drag-icon"
             src={DragIcon}
             alt="drag"
             {...attributes}
             {...listeners}
           />
           <img
-            className="options-icon"
+            className="wz-options-icon"
             src={OptionsIcon}
             alt="options"
             onClick={() => setShowOptions((s) => !s)}
@@ -117,17 +117,17 @@ export function ImageItem(props: Readonly<PropTypes>) {
 
       {showOptions && <Options />}
       {editing && (
-        <div className="image-url-input">
+        <div className="wz-image-url-input">
           <input
             type="text"
             value={editedImageUrl}
             onChange={(e) => setEditedImageUrl(e.target.value)}
             autoFocus
           ></input>
-          <button className="save-button" onClick={handleSave}>
+          <button className="wz-button wz-save-button" onClick={handleSave}>
             Save
           </button>
-          <button className="close-button" onClick={handleCancel}>
+          <button className="wz-button wz-close-button" onClick={handleCancel}>
             Cancel
           </button>
         </div>
@@ -136,15 +136,15 @@ export function ImageItem(props: Readonly<PropTypes>) {
 
       {validImage! && <img style={imgStyleWide} src={item.content} alt="img" />}
 
-      <div className="invalid-img-text">{!validImage && "X"}</div>
+      <div className="wz-invalid-img-text">{!validImage && "X"}</div>
     </div>
   );
 
   function Options() {
     return (
-      <div className="options">
+      <div className="wz-options">
         <div
-          className="delete-icon"
+          className="wz-delete-icon"
           onClick={() => {
             options?.deleteItem(item.position);
             setShowOptions((s) => !s);
@@ -153,7 +153,7 @@ export function ImageItem(props: Readonly<PropTypes>) {
           Delete
         </div>
         <div
-          className="edit-icon"
+          className="wz-edit-icon"
           onClick={() => {
             handleEditClick();
             setShowOptions((s) => !s);
