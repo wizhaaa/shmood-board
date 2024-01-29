@@ -1,6 +1,6 @@
 {
   "name": "shmood-dnd-board",
-  "version": "0.0.6",
+  "version": "1.0.2",
   "description": "Simple Drag and Drag Board for Shmood.",
   "license": "MIT",
   "author": "Will Zhang",
@@ -23,7 +23,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build && cp ./src/lib/board.css ./dist/",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
