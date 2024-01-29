@@ -11,11 +11,11 @@
     "README.md"
   ],
   "main": "./dist/shmood-dnd-board.umd.cjs",
-  "types": "./src/lib/main.d.ts",
+  "types": "./dist/main.d.ts",
   "module": "./dist/shmood-dnd-board.js",
   "exports": {
     ".": {
-      "types": "./src/lib/main.d.ts",
+      "types": "./dist/main.d.ts",
       "import": "./dist/shmood-dnd-board.js",
       "require": "./dist/shmood-dnd-board.umd.cjs"
     },

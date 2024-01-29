@@ -4,6 +4,8 @@ import {useEffect, useState} from "react";
 import Board from "./lib/Board";
 // import "./main.css";
 
+import {Child} from "./Child";
+
 const lorem =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
@@ -80,16 +82,21 @@ function App() {
     console.log("Items Re-ordered: ", newItems);
   }
 
+  const className = "wz-className";
+
   return (
     <>
       Board
       <Board
         items={data}
+        itemWidth={400}
         styles={{
           gridGap: 50,
         }}
         minimal={false}
         onReorder={onReorder}
+        className={className}
+        footerContent={<Child />}
       />
     </>
   );
@@ -103,13 +110,13 @@ type Item = {
 };
 
 // type LibraryProps = {
-//   items: ItemType[];
-//   itemWidth: number;
-//   footerContent: React.ReactNode;
-//   onReorder?: (newItems: ItemType[]) => void;
-//   className: string;
-//   minimal?: boolean;
-//   options?: {
+//   items: ItemType[]; x
+// > itemWidth: number;
+//   footerContent: React.ReactNode; x
+//   onReorder?: (newItems: ItemType[]) => void; x
+//   className: string; x
+//   minimal?: boolean; x
+// > options?: {
 //     icon: React.ReactNode;
 //     onClick: () => void;
 //   }[];
