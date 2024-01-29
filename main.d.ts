@@ -31,7 +31,7 @@ declare module '@dnd-kit/core' {
   }
 }
 
-type Item = {
+export type Item = {
   id: number | string;
   position: number;
   content: string;
@@ -58,3 +58,4 @@ export interface BoardProps {
 
 declare const Board: React.FC<BoardProps>
 export { Board };
+
