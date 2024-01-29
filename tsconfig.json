@@ -22,6 +22,6 @@
     "noImplicitAny": true,
     "types": ["node"]
   },
-  "include": ["src", "dist/main.d.ts"],
+  "include": ["src", "dist/main.d.ts", "main.d.ts"],
   "references": [{"path": "./tsconfig.node.json"}]
 }
