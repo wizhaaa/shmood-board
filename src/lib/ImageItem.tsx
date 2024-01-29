@@ -146,7 +146,7 @@ export function ImageItem(props: Readonly<PropTypes>) {
         <div
           className="wz-delete-icon"
           onClick={() => {
-            options?.deleteItem(item.position);
+            options?.deleteItem(item.id);
             setShowOptions((s) => !s);
           }}
         >
@@ -167,8 +167,8 @@ export function ImageItem(props: Readonly<PropTypes>) {
 }
 
 type OptionType = {
-  deleteItem: (arg0: number) => void;
-  editItem: (arg0: number | string, arg1: string) => void;
+  deleteItem: (id: number | string) => void;
+  editItem: (id: number | string, newContent: string) => void;
 };
 
 type PropTypes = {
@@ -187,9 +187,4 @@ type PropTypes = {
 //   id: number | string;
 //   position: number;
 //   content: string;
-// };
-
-// type Dimensions = {
-//   height: number;
-//   width: number;
 // };

@@ -76,6 +76,10 @@ function App() {
     setData(LOADED_DATA);
   }, []);
 
+  function onReorder(newItems: Item[]) {
+    console.log("Items Re-ordered: ", newItems);
+  }
+
   return (
     <>
       Board
@@ -85,17 +89,18 @@ function App() {
           gridGap: 50,
         }}
         minimal={false}
+        onReorder={onReorder}
       />
     </>
   );
 }
 
-// type ItemType = {
-//   id: number | string;
-//   position: number;
-//   content: string;
-//   type: "image" | "text" | "website";
-// };
+type Item = {
+  id: number | string;
+  position: number;
+  content: string;
+  type: "image" | "text" | "website";
+};
 
 // type LibraryProps = {
 //   items: ItemType[];

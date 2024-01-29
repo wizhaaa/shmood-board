@@ -21,7 +21,7 @@ import "./board.css";
 
 function Board(props: PropTypes) {
   // PROCESSING PROPS & ITEMS DATA
-  const {items, styles, minimal} = props;
+  const {items, styles, minimal, onReorder} = props;
   const gridGap = styles.gridGap;
 
   const boardStyles = {
@@ -126,6 +126,9 @@ function Board(props: PropTypes) {
         item.position = index + 1;
       });
       setBoardItems(updatedItems);
+
+      // User logic to handle re-ordering of board items: (*main -> dragEnd in case fails to capture re-order*)
+      onReorder(updatedItems);
     }
   }
 
@@ -148,20 +151,17 @@ function Board(props: PropTypes) {
       let newItems = [...boardItems];
       newItems = arrayMove(newItems, activeIndex, overIndex);
       setBoardItems(newItems);
+
+      // User logic to handle re-ordering of board items (*only hit if drag move does not capture reorder*)
+      onReorder(newItems);
     }
     setActiveItem(null);
   }
 
   /** Deletes item given their position (should be changed to ID). */
-  function deleteItem(position: number) {
-    // const newItems = boardItems
-    //   .slice(0, position)
-    //   .concat(boardItems.slice(position + 1))
-    //   .map((item, index) => ({...item, position: index + 1}));
-
-    // setBoardItems(newItems);
+  function deleteItem(id: number | string) {
     const newItems = boardItems
-      .filter((item: Item) => item.position !== position)
+      .filter((item: Item) => item.id !== id)
       .map((item: Item, index: number) => ({...item, position: index + 1}));
 
     setBoardItems(newItems);
@@ -188,6 +188,7 @@ type PropTypes = {
     gridGap: string | number;
   };
   minimal: boolean;
+  onReorder: (arg1: Item[]) => void;
 };
 
 type Item = {
