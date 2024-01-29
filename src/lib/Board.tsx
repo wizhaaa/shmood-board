@@ -19,14 +19,45 @@ import {TextItem} from "./TextItem";
 
 import "./board.css";
 
-function Board(props: PropTypes) {
+/** Board component.
+ * @props items : Item[]
+ * @props itemWidth : number
+ * @props styles : {gridGap : number}
+ * @props minimal? : boolean
+ * @props onReorder? : (updatedItems : Item[] ) => void;
+ * @props className? : string
+ * @props footerContent : JSX.Element | React.ReactNode | React.ReactElement
+ */
+export default function Board(props: BoardProps) {
   // PROCESSING PROPS & ITEMS DATA
-  const {items, styles, minimal} = props;
+  const {
+    items,
+    // itemWidth,
+    styles,
+    minimal,
+    onReorder,
+    className,
+    footerContent,
+  } = props;
   const gridGap = styles.gridGap;
 
   const boardStyles = {
     gridGap: gridGap,
   };
+
+  // Styling
+  // const colw = itemWidth + 20;
+
+  // const BoardStyles = {
+  //   gridTemplateColumns: `${colw}px`,
+  //   "@media (min-width: 1000px)": {
+  //     gridTemplateColumns: `${colw}px ${colw}px`,
+  //   },
+
+  //   "@media (min-width: 1450px)": {
+  //     gridTemplateColumns: `${colw}px ${colw}px ${colw}px`,
+  //   },
+  // };
 
   const [boardItems, setBoardItems] = useState<Item[]>([]);
 
@@ -48,7 +79,7 @@ function Board(props: PropTypes) {
   };
 
   return (
-    <div className="wz-root">
+    <div className={`wz-root ${className}`}>
       <div className="wz-board" style={boardStyles}>
         <DndContext
           sensors={sensors}
@@ -66,7 +97,9 @@ function Board(props: PropTypes) {
                     item={item}
                     options={options}
                     minimal={minimal}
-                  ></ImageItem>
+                  >
+                    {footerContent}
+                  </ImageItem>
                 );
               } else if (item.type === "text") {
                 return (
@@ -126,6 +159,9 @@ function Board(props: PropTypes) {
         item.position = index + 1;
       });
       setBoardItems(updatedItems);
+
+      // User logic to handle re-ordering of board items: (*main -> dragEnd in case fails to capture re-order*)
+      onReorder!(updatedItems);
     }
   }
 
@@ -148,20 +184,17 @@ function Board(props: PropTypes) {
       let newItems = [...boardItems];
       newItems = arrayMove(newItems, activeIndex, overIndex);
       setBoardItems(newItems);
+
+      // User logic to handle re-ordering of board items (*only hit if drag move does not capture reorder*)
+      onReorder!(newItems);
     }
     setActiveItem(null);
   }
 
   /** Deletes item given their position (should be changed to ID). */
-  function deleteItem(position: number) {
-    // const newItems = boardItems
-    //   .slice(0, position)
-    //   .concat(boardItems.slice(position + 1))
-    //   .map((item, index) => ({...item, position: index + 1}));
-
-    // setBoardItems(newItems);
+  function deleteItem(id: number | string) {
     const newItems = boardItems
-      .filter((item: Item) => item.position !== position)
+      .filter((item: Item) => item.id !== id)
       .map((item: Item, index: number) => ({...item, position: index + 1}));
 
     setBoardItems(newItems);
@@ -177,17 +210,21 @@ function Board(props: PropTypes) {
   }
 }
 
-type PropTypes = {
+type BoardProps = {
   items: {
     id: number | string;
     position: number;
     content: string;
     type: "image" | "text" | "website";
   }[];
+  itemWidth: number;
   styles: {
     gridGap: string | number;
   };
-  minimal: boolean;
+  minimal?: boolean;
+  onReorder?: (arg1: Item[]) => void;
+  className?: string;
+  footerContent: React.ReactNode | React.ReactElement | JSX.Element;
 };
 
 type Item = {
@@ -196,5 +233,3 @@ type Item = {
   content: string;
   type: "image" | "text" | "website";
 };
-
-export default Board;

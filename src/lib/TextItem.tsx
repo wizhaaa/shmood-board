@@ -109,7 +109,7 @@ export function TextItem(props: Readonly<PropTypes>) {
         <div
           className="wz-delete-icon"
           onClick={() => {
-            options?.deleteItem(item.position);
+            options?.deleteItem(item.id);
             setShowOptions((s) => !s);
           }}
         >
@@ -130,8 +130,8 @@ export function TextItem(props: Readonly<PropTypes>) {
 }
 
 type OptionType = {
-  deleteItem: (arg0: number) => void;
-  editItem: (arg0: number | string, arg1: string) => void;
+  deleteItem: (id: number | string) => void;
+  editItem: (id: number | string, newContent: string) => void;
 };
 
 type PropTypes = {

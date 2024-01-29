@@ -20,9 +20,8 @@ Shmood DND Board is a simple gallery view for drag and droppable, sortable, and 
 
 ### Imports:
 
-```javascript
-// @ts-ignore
-import {Board} from "shmood-dnd-board";
+```typescript
+import {Board, Item} from "shmood-dnd-board";
 import "shmood-dnd-board/shmood-board.css";
 ```
 
@@ -32,7 +31,7 @@ import "shmood-dnd-board/shmood-board.css";
 const lorem =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
-const LOADED_DATA = [
+const LOADED_DATA: Item[] = [
   {
     id: "1asdfsdaf",
     position: 1,
@@ -99,13 +98,31 @@ const LOADED_DATA = [
 ### Pass into the component:
 
 ```javascript
-<Board
-  items={LOADED_DATA}
-  styles={{
-    gridGap: 50,
-  }}
-  minimal={false}
-/>
+function App() {
+  function onReorder(newItems: Item[]) {
+    console.log("Items Re-ordered: ", newItems);
+  }
+
+  const className = "wz-className";
+  return (
+    <>
+      Your App Name
+      <div>
+        <Board
+          items={LOADED_DATA}
+          styles={{
+            gridGap: 50,
+          }}
+          minimal={false}
+          itemWidth={400}
+          onReorder={onReorder}
+          className={className}
+          footerContent={<></>}
+        />
+      </div>
+    </>
+  );
+}
 ```
 
 ## Contributing:
