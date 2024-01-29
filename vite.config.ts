@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite'
-import path, { resolve } from "path"
+import { resolve } from "path"
 import react from '@vitejs/plugin-react'
 import typescript from "@rollup/plugin-typescript"
 import { typescriptPaths } from "rollup-plugin-typescript-paths"
@@ -10,7 +10,7 @@ export default defineConfig({
   build: {
     manifest: true,
     lib: {
-      entry: resolve(__dirname, 'src/lib/main.js'),
+      entry: resolve(__dirname, 'src/lib/main.ts'),
       name: 'Shmood DnD Board',
       fileName: 'shmood-dnd-board',
       formats: ["es", "cjs"]

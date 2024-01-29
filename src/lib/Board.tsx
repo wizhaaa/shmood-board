@@ -19,7 +19,7 @@ import {TextItem} from "./TextItem";
 
 import "./board.css";
 
-function Board(props: BoardProps) {
+export default function Board(props: BoardProps) {
   // PROCESSING PROPS & ITEMS DATA
   const {
     items,
@@ -224,5 +224,3 @@ type Item = {
   content: string;
   type: "image" | "text" | "website";
 };
-
-export default Board;

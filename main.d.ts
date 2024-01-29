@@ -57,4 +57,4 @@ export interface BoardProps {
 }
 
 declare const Board: React.FC<BoardProps>
-export default Board;
+export { Board };
