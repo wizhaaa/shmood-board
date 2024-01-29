@@ -99,13 +99,35 @@ const LOADED_DATA = [
 ### Pass into the component:
 
 ```javascript
-<Board
-  items={LOADED_DATA}
-  styles={{
-    gridGap: 50,
-  }}
-  minimal={false}
-/>
+function App() {
+  type Item = {
+    id: number | string,
+    position: number,
+    content: string,
+    type: "image" | "text" | "website",
+  };
+  function onReorder(newItems: Item[]) {
+    console.log("Items Re-ordered: ", newItems);
+  }
+
+  const className = "wz-className";
+  return (
+    <>
+      Your App Name
+      <div>
+        <Board
+          items={LOADED_DATA}
+          styles={{
+            gridGap: 50,
+          }}
+          minimal={false}
+          onReorder={onReorder}
+          className={className}
+        />
+      </div>
+    </>
+  );
+}
 ```
 
 ## Contributing:
