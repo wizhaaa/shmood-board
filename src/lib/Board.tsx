@@ -48,8 +48,8 @@ function Board(props: PropTypes) {
   };
 
   return (
-    <div>
-      <div className="board" style={boardStyles}>
+    <div className="wz-root">
+      <div className="wz-board" style={boardStyles}>
         <DndContext
           sensors={sensors}
           collisionDetection={closestCorners}
