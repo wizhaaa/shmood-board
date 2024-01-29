@@ -22,3 +22,17 @@ declare module "shmood-dnd-board" {
     minimal: boolean;
   }
 }
+
+
+export type Board = {
+  items: {
+    id: number | string;
+    position: number;
+    content: string;
+    type: "image" | "text" | "website";
+  }[];
+  styles: {
+    gridGap: string | number;
+  };
+  minimal: boolean;
+};

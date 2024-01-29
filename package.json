@@ -1,6 +1,6 @@
 {
   "name": "shmood-dnd-board",
-  "version": "0.0.0",
+  "version": "0.0.6",
   "description": "Simple Drag and Drag Board for Shmood.",
   "license": "MIT",
   "author": "Will Zhang",
@@ -11,16 +11,19 @@
     "README.md"
   ],
   "main": "./dist/shmood-dnd-board.umd.cjs",
+  "types": "./src/lib/main.d.ts",
   "module": "./dist/shmood-dnd-board.js",
   "exports": {
     ".": {
+      "types": "./src/lib/main.d.ts",
       "import": "./dist/shmood-dnd-board.js",
       "require": "./dist/shmood-dnd-board.umd.cjs"
-    }
+    },
+    "./shmood-board.css": "./src/lib/board.css"
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build ",
+    "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
