@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import Board from "./lib/Board";
 // import "./main.css";
 
-import {Child} from "./Child";
+import {Footer} from "./Footer";
 
 const lorem =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
@@ -18,7 +18,7 @@ const LOADED_DATA = [
   },
   {
     id: "2zzz",
-    position: 2,
+    position: 0,
     type: "image",
     content: "https://picsum.photos/id/419/950/350",
   },
@@ -60,13 +60,13 @@ const LOADED_DATA = [
   },
   {
     id: "ive",
-    position: 9,
+    position: 19,
     type: "image",
     content: "https://picsum.photos/id/909/100/100",
   },
   {
     id: "twice",
-    position: 10,
+    position: 20,
     type: "image",
     content: "https://picsum.photos/id/80/300/300",
   },
@@ -80,6 +80,12 @@ function App() {
 
   function onReorder(newItems: Item[]) {
     console.log("Items Re-ordered: ", newItems);
+  }
+  function onDelete(id: string | number) {
+    console.log("Item Deleted ", id);
+  }
+  function onEdit(modifiedItem: Item) {
+    console.log("Item Edited ", modifiedItem);
   }
 
   const className = "wz-className";
@@ -95,8 +101,10 @@ function App() {
         }}
         minimal={false}
         onReorder={onReorder}
+        onDelete={onDelete}
+        onEdit={onEdit}
         className={className}
-        footerContent={<Child />}
+        footerContent={Footer}
       />
     </>
   );

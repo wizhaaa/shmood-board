@@ -1,0 +1,23 @@
+.wz-footer {
+  background: #f1f1f1;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+
+  width: calc(100% + 2px);
+
+  font-size: 12.86px;
+  text-align: center;
+
+  color: black;
+  border-radius: 0 0 10px 10px;
+}
+
+.wz-normal {
+  height: 180px;
+}
+
+.wz-longer {
+  height: 360px;
+}

@@ -51,9 +51,11 @@ export interface BoardProps {
     gridGap: string | number;
   };
   minimal?: boolean;
-  onReorder?: (arg1: Item[]) => void;
+  onReorder?: (reorderedItems: Item[]) => void;
+  onDelete?: (id: string | number) => void;
+  onEdit?: (modifiedPost: Item) => void;
   className?: string;
-  footerContent: React.ReactNode | React.ReactElement | JSX.Element;
+  footerContent: (id: string | number) => JSX.Element;
 }
 
 declare const Board: React.FC<BoardProps>

@@ -1,4 +1,4 @@
-import {ReactNode, useState} from "react";
+import {useState, useEffect, useRef} from "react";
 import {useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
 import DragIcon from "../assets/drag-icon.svg";
@@ -26,6 +26,24 @@ export function TextItem(props: Readonly<PropTypes>) {
 
   // Show Options
   const [showOptions, setShowOptions] = useState(false);
+  const optionsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOffOptions(event: MouseEvent) {
+      if (
+        optionsRef.current &&
+        !optionsRef.current.contains(event.target as Node)
+      ) {
+        setShowOptions(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOffOptions);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOffOptions);
+    };
+  });
 
   // Editing Logic
   const [editing, setEditing] = useState(false);
@@ -54,52 +72,56 @@ export function TextItem(props: Readonly<PropTypes>) {
       ref={setNodeRef}
       style={{...style, ...(isDragging ? draggingStyle : {})}}
     >
-      {!editing && !minimal && (
-        <>
-          <img
-            className="wz-drag-icon"
-            src={DragIcon}
-            alt="drag"
-            {...attributes}
-            {...listeners}
-          />
-          <img
-            className="wz-options-icon"
-            src={OptionsIcon}
-            alt="options"
-            onClick={() => {
-              console.log("edit text");
-              setShowOptions((s) => !s);
-            }}
-          />
-        </>
-      )}
-      {showOptions && <Options />}
-      {editing && (
-        <div className="wz-text-item-input-container">
-          <textarea
-            className="wz-text-item-input"
-            value={editedText}
-            onChange={(e) => setEditedText(e.target.value)}
-            autoFocus
-            rows={14}
-            spellCheck="false"
-          ></textarea>
-          <button className="wz-button wz-save-button" onClick={handleSave}>
-            Save
-          </button>
-          <button className="wz-button wz-close-button" onClick={handleCancel}>
-            Close
-          </button>
-        </div>
-      )}
-      {children}
+      <div className="wz-item-content">
+        {!editing && !minimal && (
+          <div ref={optionsRef}>
+            <img
+              className="wz-drag-icon"
+              src={DragIcon}
+              alt="drag"
+              {...attributes}
+              {...listeners}
+            />
+            <img
+              className="wz-options-icon"
+              src={OptionsIcon}
+              alt="options"
+              onClick={() => {
+                setShowOptions((s) => !s);
+              }}
+            />
+          </div>
+        )}
+        {showOptions && <Options />}
+        {editing && (
+          <div className="wz-text-item-input-container">
+            <textarea
+              className="wz-text-item-input"
+              value={editedText}
+              onChange={(e) => setEditedText(e.target.value)}
+              autoFocus
+              rows={14}
+              spellCheck="false"
+            ></textarea>
+            <button className="wz-button wz-save-button" onClick={handleSave}>
+              Save
+            </button>
+            <button
+              className="wz-button wz-close-button"
+              onClick={handleCancel}
+            >
+              Close
+            </button>
+          </div>
+        )}
 
-      {!editing && (
-        <div className="wz-text-item-content-container">
-          <div className="wz-text-item-content">{item.content}</div>
-        </div>
-      )}
+        {!editing && (
+          <div className="wz-text-item-content-container">
+            <div className="wz-text-item-content">{item.content}</div>
+          </div>
+        )}
+      </div>
+      {children ? children(item.id) : null}
     </div>
   );
 
@@ -142,6 +164,6 @@ type PropTypes = {
     content: string;
   };
   options?: OptionType;
-  children?: ReactNode;
+  children?: (id: string | number) => JSX.Element;
   minimal?: boolean;
 };

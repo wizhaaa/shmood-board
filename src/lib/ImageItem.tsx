@@ -1,4 +1,4 @@
-import {CSSProperties, ReactNode, useEffect, useState} from "react";
+import {CSSProperties, useEffect, useRef, useState} from "react";
 import {useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
 import DragIcon from "../assets/drag-icon.svg";
@@ -49,18 +49,6 @@ export function ImageItem(props: Readonly<PropTypes>) {
     checkImageValidity();
   });
 
-  // function onImageLoad(event: SyntheticEvent<HTMLImageElement>) {
-  //   const img = event.target as HTMLImageElement;
-  //   setDims({
-  //     height: img.naturalHeight,
-  //     width: img.naturalWidth,
-  //   });
-  // }
-
-  // const imgStyleTall: CSSProperties = {
-  //   height: `400px`,
-  // };
-
   const imgStyleWide: CSSProperties = {
     width: "400px",
     height: "auto",
@@ -69,6 +57,25 @@ export function ImageItem(props: Readonly<PropTypes>) {
 
   // Show Options
   const [showOptions, setShowOptions] = useState(false);
+
+  const optionsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOffOptions(event: MouseEvent) {
+      if (
+        optionsRef.current &&
+        !optionsRef.current.contains(event.target as Node)
+      ) {
+        setShowOptions(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOffOptions);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOffOptions);
+    };
+  });
 
   // Editing Logic
   const [editing, setEditing] = useState(false);
@@ -97,52 +104,59 @@ export function ImageItem(props: Readonly<PropTypes>) {
       ref={setNodeRef}
       style={{...style, ...(isDragging ? draggingStyle : {})}}
     >
-      {!minimal && (
-        <>
-          <img
-            className="wz-drag-icon"
-            src={DragIcon}
-            alt="drag"
-            {...attributes}
-            {...listeners}
-          />
-          <img
-            className="wz-options-icon"
-            src={OptionsIcon}
-            alt="options"
-            onClick={() => setShowOptions((s) => !s)}
-          />
-        </>
-      )}
+      <div className="wz-item-content">
+        {!minimal && (
+          <>
+            <img
+              className="wz-drag-icon"
+              src={DragIcon}
+              alt="drag"
+              {...attributes}
+              {...listeners}
+            />
+            <img
+              className="wz-options-icon"
+              src={OptionsIcon}
+              alt="options"
+              onClick={() => setShowOptions((s) => !s)}
+            />
+          </>
+        )}
 
-      {showOptions && <Options />}
-      {editing && (
-        <div className="wz-image-url-input">
-          <input
-            type="text"
-            value={editedImageUrl}
-            onChange={(e) => setEditedImageUrl(e.target.value)}
-            autoFocus
-          ></input>
-          <button className="wz-button wz-save-button" onClick={handleSave}>
-            Save
-          </button>
-          <button className="wz-button wz-close-button" onClick={handleCancel}>
-            Cancel
-          </button>
-        </div>
-      )}
-      {children}
+        {showOptions && <Options />}
+        {editing && (
+          <div className="wz-image-url-input">
+            <input
+              type="text"
+              value={editedImageUrl}
+              onChange={(e) => setEditedImageUrl(e.target.value)}
+              autoFocus
+            ></input>
+            <button className="wz-button wz-save-button" onClick={handleSave}>
+              Save
+            </button>
+            <button
+              className="wz-button wz-close-button"
+              onClick={handleCancel}
+            >
+              Cancel
+            </button>
+          </div>
+        )}
 
-      {validImage! && <img style={imgStyleWide} src={item.content} alt="img" />}
+        {validImage! && (
+          <img style={imgStyleWide} src={item.content} alt="img" />
+        )}
 
-      <div className="wz-invalid-img-text">{!validImage && "X"}</div>
+        <div className="wz-invalid-img-text">{!validImage && "X"}</div>
+      </div>
+      {children ? children(item.id) : null}
     </div>
   );
 
   function Options() {
     return (
-      <div className="wz-options">
+      <div className="wz-options" ref={optionsRef}>
         <div
           className="wz-delete-icon"
           onClick={() => {
@@ -179,7 +193,7 @@ type PropTypes = {
     content: string;
   };
   options?: OptionType;
-  children?: ReactNode;
+  children?: (id: string | number) => JSX.Element;
   minimal?: boolean;
 };
 

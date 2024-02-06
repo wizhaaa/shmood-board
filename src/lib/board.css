@@ -80,11 +80,10 @@
 
 .wz-image-item {
   width: 400px;
-  height: 400px;
-  border: 1px solid #f0f0f0;
 
   /* center */
   display: flex;
+  flex-flow: column;
   position: relative;
   margin-bottom: 100px;
 }
@@ -92,6 +91,13 @@
 .wz-image-item > img {
   margin-left: auto;
   margin-right: auto;
+}
+
+.wz-item-content {
+  width: 400px;
+  height: 400px;
+  border: 0.5px solid #f0f0f0;
+  display: flex;
 }
 
 .wz-drag-icon {
@@ -121,7 +127,7 @@
   width: 20px;
   height: 30px;
   padding: 0;
-  margin-right: 20px;
+  margin-right: 4px;
 
   /* Style */
   background-color: #f3f3f3;
@@ -343,4 +349,10 @@
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background-color: #555; /* Set the color when hovering over the handle */
+}
+
+/* Footer Content */
+.footer-wrapper {
+  position: absolute;
+  bottom: 0;
 }
