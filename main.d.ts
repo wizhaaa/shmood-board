@@ -35,25 +35,24 @@ export type Item = {
   id: number | string;
   position: number;
   content: string;
+  title: string;
+  icon: string;
   type: "image" | "text" | "website";
 };
 
 
 export interface BoardProps {
-  items: {
-    id: number | string;
-    position: number;
-    content: string;
-    type: "image" | "text" | "website";
-  }[];
+  items: Item[];
   itemWidth: number;
   styles: {
     gridGap: string | number;
   };
   minimal?: boolean;
-  onReorder?: (arg1: Item[]) => void;
+  onReorder?: (reorderedItems: Item[]) => void;
+  onDelete?: (id: string | number) => void;
+  onEdit?: (modifiedPost: Item) => void;
   className?: string;
-  footerContent: React.ReactNode | React.ReactElement | JSX.Element;
+  footerContent: (id: string | number) => JSX.Element;
 }
 
 declare const Board: React.FC<BoardProps>

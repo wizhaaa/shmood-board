@@ -17,6 +17,8 @@ import {useState} from "react";
 import {ImageItem} from "./ImageItem";
 import {TextItem} from "./TextItem";
 
+import type {Item} from "./Types";
+
 import "./board.css";
 
 /** Board component.
@@ -36,6 +38,8 @@ export default function Board(props: BoardProps) {
     styles,
     minimal,
     onReorder,
+    onEdit,
+    onDelete,
     className,
     footerContent,
   } = props;
@@ -44,20 +48,6 @@ export default function Board(props: BoardProps) {
   const boardStyles = {
     gridGap: gridGap,
   };
-
-  // Styling
-  // const colw = itemWidth + 20;
-
-  // const BoardStyles = {
-  //   gridTemplateColumns: `${colw}px`,
-  //   "@media (min-width: 1000px)": {
-  //     gridTemplateColumns: `${colw}px ${colw}px`,
-  //   },
-
-  //   "@media (min-width: 1450px)": {
-  //     gridTemplateColumns: `${colw}px ${colw}px ${colw}px`,
-  //   },
-  // };
 
   const [boardItems, setBoardItems] = useState<Item[]>([]);
 
@@ -108,7 +98,9 @@ export default function Board(props: BoardProps) {
                     item={item}
                     options={options}
                     minimal={minimal}
-                  ></TextItem>
+                  >
+                    {footerContent}
+                  </TextItem>
                 );
               }
             })}
@@ -197,39 +189,35 @@ export default function Board(props: BoardProps) {
       .filter((item: Item) => item.id !== id)
       .map((item: Item, index: number) => ({...item, position: index + 1}));
 
+    onDelete!(id);
     setBoardItems(newItems);
   }
 
   /**  Edits the item given thier 
         @param id  to new @param editedContent*/
   function editItem(id: number | string, editedContent: string) {
-    const newItems = boardItems.map((item: Item) =>
-      item.id === id ? {...item, content: editedContent} : item
-    );
+    const newItems = boardItems.map((item: Item) => {
+      if (item.id === id) {
+        const modifiedPost: Item = {...item, content: editedContent};
+        onEdit!(modifiedPost);
+        return {...item, content: editedContent};
+      }
+      return item;
+    });
     setBoardItems(newItems);
   }
 }
 
 type BoardProps = {
-  items: {
-    id: number | string;
-    position: number;
-    content: string;
-    type: "image" | "text" | "website";
-  }[];
+  items: Item[];
   itemWidth: number;
   styles: {
     gridGap: string | number;
   };
   minimal?: boolean;
-  onReorder?: (arg1: Item[]) => void;
+  onReorder?: (reorderedItems: Item[]) => void;
+  onDelete?: (id: string | number) => void;
+  onEdit?: (modifiedPost: Item) => void;
   className?: string;
-  footerContent: React.ReactNode | React.ReactElement | JSX.Element;
-};
-
-type Item = {
-  id: number | string;
-  position: number;
-  content: string;
-  type: "image" | "text" | "website";
+  footerContent: (id: string | number) => JSX.Element;
 };
