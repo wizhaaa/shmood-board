@@ -96,7 +96,9 @@ export default function Board(props: BoardProps) {
                     item={item}
                     options={options}
                     minimal={minimal}
-                  ></TextItem>
+                  >
+                    {footerContent}
+                  </TextItem>
                 );
               }
             })}
@@ -205,12 +207,7 @@ export default function Board(props: BoardProps) {
 }
 
 type BoardProps = {
-  items: {
-    id: number | string;
-    position: number;
-    content: string;
-    type: "image" | "text" | "website";
-  }[];
+  items: Item[];
   itemWidth: number;
   styles: {
     gridGap: string | number;
@@ -227,5 +224,6 @@ type Item = {
   id: number | string;
   position: number;
   content: string;
+  title: string;
   type: "image" | "text" | "website";
 };

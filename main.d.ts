@@ -35,17 +35,13 @@ export type Item = {
   id: number | string;
   position: number;
   content: string;
+  title: string;
   type: "image" | "text" | "website";
 };
 
 
 export interface BoardProps {
-  items: {
-    id: number | string;
-    position: number;
-    content: string;
-    type: "image" | "text" | "website";
-  }[];
+  items: Item[];
   itemWidth: number;
   styles: {
     gridGap: string | number;

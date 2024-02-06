@@ -1,7 +1,9 @@
-import {CSSProperties, useEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
-import DragIcon from "../assets/drag-icon.svg";
+
+import pfpIcon from "../assets/pfp.svg";
+import DragGrab from "../assets/drag.svg";
 import OptionsIcon from "../assets/more-options.svg";
 
 /**  Renders an Image Item on a board.
@@ -49,14 +51,9 @@ export function ImageItem(props: Readonly<PropTypes>) {
     checkImageValidity();
   });
 
-  const imgStyleWide: CSSProperties = {
-    width: "400px",
-    height: "auto",
-    objectFit: "scale-down",
-  };
-
   // Show Options
   const [showOptions, setShowOptions] = useState(false);
+  const [showDrag, setShowDrag] = useState(false);
 
   const optionsRef = useRef<HTMLDivElement>(null);
 
@@ -104,26 +101,37 @@ export function ImageItem(props: Readonly<PropTypes>) {
       ref={setNodeRef}
       style={{...style, ...(isDragging ? draggingStyle : {})}}
     >
-      <div className="wz-item-content">
-        {!minimal && (
-          <>
+      {!minimal && (
+        <div
+          className="wz-item-toolbar"
+          ref={optionsRef}
+          onMouseEnter={() => setShowDrag(true)}
+          onMouseLeave={() => setShowDrag(false)}
+        >
+          <img className="wz-pfp-icon" src={pfpIcon} alt="pfp" />
+          {showDrag ? (
             <img
               className="wz-drag-icon"
-              src={DragIcon}
+              src={DragGrab}
               alt="drag"
               {...attributes}
               {...listeners}
             />
-            <img
-              className="wz-options-icon"
-              src={OptionsIcon}
-              alt="options"
-              onClick={() => setShowOptions((s) => !s)}
-            />
-          </>
-        )}
-
-        {showOptions && <Options />}
+          ) : (
+            <div>{item.title}</div>
+          )}
+          <img
+            className="wz-options-icon"
+            src={OptionsIcon}
+            alt="options"
+            onClick={() => {
+              setShowOptions((s) => !s);
+            }}
+          />
+        </div>
+      )}
+      {showOptions && <Options />}
+      <div className="wz-item-content">
         {editing && (
           <div className="wz-image-url-input">
             <input
@@ -145,7 +153,7 @@ export function ImageItem(props: Readonly<PropTypes>) {
         )}
 
         {validImage! && (
-          <img style={imgStyleWide} src={item.content} alt="img" />
+          <img className="wz-image" src={item.content} alt="img" />
         )}
 
         <div className="wz-invalid-img-text">{!validImage && "X"}</div>
@@ -187,14 +195,18 @@ type OptionType = {
 
 type PropTypes = {
   id?: string | number;
-  item: {
-    id: number | string;
-    position: number;
-    content: string;
-  };
+  item: Item;
   options?: OptionType;
   children?: (id: string | number) => JSX.Element;
   minimal?: boolean;
+};
+
+type Item = {
+  id: number | string;
+  position: number;
+  type: "image" | "text" | "website";
+  title: string;
+  content: string;
 };
 
 // type Item = {

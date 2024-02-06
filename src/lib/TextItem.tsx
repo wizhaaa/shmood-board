@@ -1,7 +1,8 @@
 import {useState, useEffect, useRef} from "react";
 import {useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
-import DragIcon from "../assets/drag-icon.svg";
+import pfpIcon from "../assets/pfp.svg";
+import DragGrab from "../assets/drag.svg";
 import OptionsIcon from "../assets/more-options.svg";
 
 export function TextItem(props: Readonly<PropTypes>) {
@@ -26,6 +27,8 @@ export function TextItem(props: Readonly<PropTypes>) {
 
   // Show Options
   const [showOptions, setShowOptions] = useState(false);
+  const [showDrag, setShowDrag] = useState(false);
+
   const optionsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -34,7 +37,8 @@ export function TextItem(props: Readonly<PropTypes>) {
         optionsRef.current &&
         !optionsRef.current.contains(event.target as Node)
       ) {
-        setShowOptions(false);
+        // setShowOptions(false);
+        return;
       }
     }
 
@@ -53,14 +57,15 @@ export function TextItem(props: Readonly<PropTypes>) {
   };
 
   const handleSave = () => {
-    options?.editItem(item.id, editedText);
     setEditing(false);
+    options?.editItem(item.id, editedText);
   };
 
   const handleCancel = () => {
     setEditing(false);
     setEditedText(item.content);
   };
+
 
   const draggingStyle = {
     opacity: "0.1",
@@ -72,27 +77,37 @@ export function TextItem(props: Readonly<PropTypes>) {
       ref={setNodeRef}
       style={{...style, ...(isDragging ? draggingStyle : {})}}
     >
-      <div className="wz-item-content">
-        {!editing && !minimal && (
-          <div ref={optionsRef}>
+      {!minimal && (
+        <div
+          className="wz-item-toolbar"
+          ref={optionsRef}
+          onMouseEnter={() => setShowDrag(true)}
+          onMouseLeave={() => setShowDrag(false)}
+        >
+          <img className="wz-pfp-icon" src={pfpIcon} alt="pfp" />
+          {showDrag ? (
             <img
               className="wz-drag-icon"
-              src={DragIcon}
+              src={DragGrab}
               alt="drag"
               {...attributes}
               {...listeners}
             />
-            <img
-              className="wz-options-icon"
-              src={OptionsIcon}
-              alt="options"
-              onClick={() => {
-                setShowOptions((s) => !s);
-              }}
-            />
-          </div>
-        )}
-        {showOptions && <Options />}
+          ) : (
+            <div>{item.title}</div>
+          )}
+          <img
+            className="wz-options-icon"
+            src={OptionsIcon}
+            alt="options"
+            onClick={() => {
+              setShowOptions((s) => !s);
+            }}
+          />
+        </div>
+      )}
+      {showOptions && <Options />}
+      <div className="wz-item-content">
         {editing && (
           <div className="wz-text-item-input-container">
             <textarea
@@ -162,6 +177,7 @@ type PropTypes = {
     id: number | string;
     position: number;
     content: string;
+    title: string;
   };
   options?: OptionType;
   children?: (id: string | number) => JSX.Element;

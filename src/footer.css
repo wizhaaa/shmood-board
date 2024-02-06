@@ -5,13 +5,14 @@
   justify-content: center;
   align-items: center;
 
-  width: calc(100% + 2px);
+  width: calc(100%);
 
   font-size: 12.86px;
   text-align: center;
 
   color: black;
   border-radius: 0 0 10px 10px;
+  box-shadow: 0px 4px 4px 0px #0000002b;
 }
 
 .wz-normal {

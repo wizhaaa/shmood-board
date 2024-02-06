@@ -6,74 +6,87 @@ import Board from "./lib/Board";
 
 import {Footer} from "./Footer";
 
-const lorem =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+const poem1 =
+  "The sky here is American like the blue of your eyes \n the folds of your eyelids the Hindu Kush mountain. \n The rich vein of the Hindu Kush only a stony ridge \n cutting across the parched soil of Afghanistan \n on which the primal play of...";
 
-const LOADED_DATA = [
+const poem2 =
+  "Back to Previous The More Loving One BY W. H. AUDEN Looking up at the stars, I know quite well That, for all they care, I can go to hell, But on earth indifference is the least We have to dread from man or beast. How should we like it were stars to burn With a passion for us we could not return? If equally affection cannot be, Let the more loving one be me. Admirer as I think I am Of stars that do not give a damn, I cannot, now I see them, say I missed one terribly all day.";
+
+const LOADED_DATA: Item[] = [
   {
     id: "1asdfsdaf",
     position: 1,
     type: "image",
+    title: "Dan's Post",
     content: "https://picsum.photos/id/421/450/950",
   },
   {
     id: "2zzz",
     position: 0,
     type: "image",
+    title: "Dan's Post",
     content: "https://picsum.photos/id/419/950/350",
   },
   {
     id: 3,
     position: 3,
     type: "text",
-    content: lorem,
+    title: "Dan's Post",
+    content: poem1,
   },
   {
     id: "4s8923rpqw",
     position: 4,
     type: "image",
+    title: "Dan's Post",
     content: "https://picsum.photos/id/424/950/450",
   },
   {
     id: 5,
     position: 5,
     type: "image",
+    title: "Dan's Post",
     content: "https://picsum.photos/id/425/950/450",
   },
   {
     id: "6ekkew",
     position: 6,
     type: "text",
-    content: lorem,
+    title: "Dan's Post",
+    content: poem2,
   },
   {
     id: "7ok",
     position: 7,
     type: "image",
+    title: "Dan's Post",
     content: "https://picsum.photos/id/427/150/1050",
   },
   {
     id: "lesserafim",
     position: 8,
     type: "image",
+    title: "Dan's Post",
     content: "https://picsum.photos/id/212/450/450",
   },
   {
     id: "ive",
     position: 19,
     type: "image",
+    title: "Dan's Post",
     content: "https://picsum.photos/id/909/100/100",
   },
   {
     id: "twice",
     position: 20,
     type: "image",
+    title: "Dan's Post",
     content: "https://picsum.photos/id/80/300/300",
   },
 ];
 
 function App() {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<Item[]>([]);
   useEffect(() => {
     setData(LOADED_DATA);
   }, []);
@@ -113,8 +126,9 @@ function App() {
 type Item = {
   id: number | string;
   position: number;
-  content: string;
   type: "image" | "text" | "website";
+  title: string;
+  content: string;
 };
 
 // type LibraryProps = {
