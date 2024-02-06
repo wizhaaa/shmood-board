@@ -17,6 +17,8 @@ import {useState} from "react";
 import {ImageItem} from "./ImageItem";
 import {TextItem} from "./TextItem";
 
+import type {Item} from "./Types";
+
 import "./board.css";
 
 /** Board component.
@@ -218,12 +220,4 @@ type BoardProps = {
   onEdit?: (modifiedPost: Item) => void;
   className?: string;
   footerContent: (id: string | number) => JSX.Element;
-};
-
-type Item = {
-  id: number | string;
-  position: number;
-  content: string;
-  title: string;
-  type: "image" | "text" | "website";
 };

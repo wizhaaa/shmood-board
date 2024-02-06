@@ -36,6 +36,7 @@ export type Item = {
   position: number;
   content: string;
   title: string;
+  icon: string;
   type: "image" | "text" | "website";
 };
 

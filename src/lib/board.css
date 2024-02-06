@@ -103,6 +103,8 @@
   background: #fff;
   box-shadow: 0px 0px 4px 0px #0000001f;
 
+  font-weight: 600;
+
   height: 50px;
   width: calc(100% - 24px);
   border-radius: 10px 10px 0 0;
@@ -128,7 +130,6 @@
   width: 120px;
   height: 30px;
   padding: 0;
-  margin-right: 20px;
 
   /* Style */
   cursor: pointer;
@@ -148,14 +149,20 @@
 .wz-options {
   /* sizing */
   width: 100px;
-  height: 65px;
+  height: 54px;
+  padding: 6px 5px;
 
   /* Style */
-  background-color: #f3f3f3;
+  background-color: #fff;
   cursor: pointer;
+  font-size: 13.5px;
   text-align: center;
   border-radius: 10px;
-  box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 8px 8px rgba(0, 0, 0, 0.063);
+
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
 
   /* position */
   position: absolute;
@@ -163,40 +170,44 @@
   right: -30px;
 
   z-index: 100;
+
+  & > div {
+    display: flex;
+    align-items: center;
+  }
 }
 
-.wz-delete-icon {
+.wz-options-row {
   color: #000000;
-  border-radius: 10px 10px 0px 0px;
+  border-radius: 4px;
 
-  width: 100%;
-  height: 30px;
-  padding-top: 4px;
+  width: 80%;
+  padding: 0 10%;
+  height: 26px;
 
-  /* position */
-  position: absolute;
-  top: 0px;
-  right: 0;
+  display: flex;
+  flex-flow: row nowrap;
+
+  justify-content: space-between;
+  place-self: center;
 
   &:hover {
-    background-color: #b8b8b8;
+    background-color: #e0e0e0;
+  }
+
+  & > img {
+    width: 14px;
   }
 }
 
 .wz-edit-icon {
   color: #000000;
-  border-radius: 0 0px 10px 10px;
+  border-radius: 4px;
   width: 100%;
   height: 30px;
-  padding-top: 4px;
-
-  /* position */
-  position: absolute;
-  top: 31px;
-  right: 0;
 
   &:hover {
-    background-color: #b8b8b8;
+    background-color: #e0e0e0;
   }
 }
 
@@ -245,14 +256,7 @@
 
 /* Text Item Styling */
 
-@font-face {
-  font-family: "SF Pro";
-  src: url("../fonts/SF-Pro-Regular.ttf") format("truetype");
-  /* Add more src lines for other font weights and styles if needed */
-}
-
 .wz-text-item-input-container {
-  /* font-family: "SF Pro"; */
   width: 100%;
   height: 100%;
 
@@ -291,9 +295,8 @@
   overflow-y: auto;
   resize: none;
 
-  font-family: "SF Pro", system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-weight: 590;
   font-size: 1.25rem;
   line-height: 1.2;
@@ -307,6 +310,7 @@
 
   display: flex;
   justify-content: center;
+  white-space: pre-wrap;
 }
 
 .wz-text-item-content {
@@ -325,8 +329,8 @@
   overflow: hidden;
   resize: none;
 
-  font-family: "SF Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 1.25rem;
 }
 

@@ -1,9 +1,11 @@
 import {useState, useEffect, useRef} from "react";
 import {useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
-import pfpIcon from "../assets/pfp.svg";
+// import pfpIcon from "../assets/pfp.svg";
 import DragGrab from "../assets/drag.svg";
 import OptionsIcon from "../assets/more-options.svg";
+import EditIcon from "../assets/pencil.svg";
+import TrashIcon from "../assets/trash.svg";
 
 export function TextItem(props: Readonly<PropTypes>) {
   // options are the functions when click the [...] more options panel
@@ -66,7 +68,6 @@ export function TextItem(props: Readonly<PropTypes>) {
     setEditedText(item.content);
   };
 
-
   const draggingStyle = {
     opacity: "0.1",
   };
@@ -84,7 +85,7 @@ export function TextItem(props: Readonly<PropTypes>) {
           onMouseEnter={() => setShowDrag(true)}
           onMouseLeave={() => setShowDrag(false)}
         >
-          <img className="wz-pfp-icon" src={pfpIcon} alt="pfp" />
+          <img className="wz-pfp-icon" src={item.icon} alt="pfp" />
           {showDrag ? (
             <img
               className="wz-drag-icon"
@@ -144,22 +145,22 @@ export function TextItem(props: Readonly<PropTypes>) {
     return (
       <div className="wz-options">
         <div
-          className="wz-delete-icon"
-          onClick={() => {
-            options?.deleteItem(item.id);
-            setShowOptions((s) => !s);
-          }}
-        >
-          Delete
-        </div>
-        <div
-          className="wz-edit-icon"
+          className="wz-options-row"
           onClick={() => {
             handleEditClick();
             setShowOptions((s) => !s);
           }}
         >
-          Edit
+          Edit <img src={EditIcon} alt="edit-icon" />
+        </div>
+        <div
+          className="wz-options-row"
+          onClick={() => {
+            options?.deleteItem(item.id);
+            setShowOptions((s) => !s);
+          }}
+        >
+          Delete <img src={TrashIcon} alt="delete-icon" />
         </div>
       </div>
     );
@@ -173,13 +174,10 @@ type OptionType = {
 
 type PropTypes = {
   id?: string | number;
-  item: {
-    id: number | string;
-    position: number;
-    content: string;
-    title: string;
-  };
+  item: Item;
   options?: OptionType;
   children?: (id: string | number) => JSX.Element;
   minimal?: boolean;
 };
+
+import type {Item} from "./Types";

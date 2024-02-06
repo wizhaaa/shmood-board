@@ -2,9 +2,11 @@ import {useEffect, useRef, useState} from "react";
 import {useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
 
-import pfpIcon from "../assets/pfp.svg";
+// import pfpIcon from "../assets/pfp.svg";
 import DragGrab from "../assets/drag.svg";
 import OptionsIcon from "../assets/more-options.svg";
+import EditIcon from "../assets/pencil.svg";
+import TrashIcon from "../assets/trash.svg";
 
 /**  Renders an Image Item on a board.
  * @param options - default to edit, delete
@@ -108,7 +110,7 @@ export function ImageItem(props: Readonly<PropTypes>) {
           onMouseEnter={() => setShowDrag(true)}
           onMouseLeave={() => setShowDrag(false)}
         >
-          <img className="wz-pfp-icon" src={pfpIcon} alt="pfp" />
+          <img className="wz-pfp-icon" src={item.icon} alt="pfp" />
           {showDrag ? (
             <img
               className="wz-drag-icon"
@@ -166,22 +168,22 @@ export function ImageItem(props: Readonly<PropTypes>) {
     return (
       <div className="wz-options" ref={optionsRef}>
         <div
-          className="wz-delete-icon"
-          onClick={() => {
-            options?.deleteItem(item.id);
-            setShowOptions((s) => !s);
-          }}
-        >
-          Delete
-        </div>
-        <div
-          className="wz-edit-icon"
+          className="wz-options-row"
           onClick={() => {
             handleEditClick();
             setShowOptions((s) => !s);
           }}
         >
-          Edit
+          Edit <img src={EditIcon} alt="edit-icon" />
+        </div>
+        <div
+          className="wz-options-row"
+          onClick={() => {
+            options?.deleteItem(item.id);
+            setShowOptions((s) => !s);
+          }}
+        >
+          Delete <img src={TrashIcon} alt="delete-icon" />
         </div>
       </div>
     );
@@ -201,13 +203,7 @@ type PropTypes = {
   minimal?: boolean;
 };
 
-type Item = {
-  id: number | string;
-  position: number;
-  type: "image" | "text" | "website";
-  title: string;
-  content: string;
-};
+import type {Item} from "./Types";
 
 // type Item = {
 //   id: number | string;
