@@ -9,6 +9,7 @@
 
   font-size: 12.86px;
   text-align: center;
+  font-weight: 600;
 
   color: black;
   border-radius: 0 0 10px 10px;
@@ -16,9 +17,9 @@
 }
 
 .wz-normal {
-  height: 180px;
+  height: 100px;
 }
 
 .wz-longer {
-  height: 360px;
+  height: 200px;
 }
