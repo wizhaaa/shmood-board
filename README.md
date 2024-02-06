@@ -1,4 +1,4 @@
-# Shmood DND Board Package
+# shmood-board: a drag & drop library 
 
 Shmood DND Board is a simple gallery view for drag and droppable, sortable, and movable grid items. Allows you to edit text and displays images.
 
