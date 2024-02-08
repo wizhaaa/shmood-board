@@ -195,6 +195,9 @@ yarn dev
 ## Options Dropdown
 <img width="394" alt="Screenshot 2024-02-06 at 12 40 57 PM" src="https://github.com/wizhaaa/shmood-board/assets/46132945/eb5732bc-7601-4b31-896f-91ae2e22bf4a">
 
+## Website & Embeds Support
+![PNG image](https://github.com/wizhaaa/shmood-board/assets/46132945/30da697b-7553-46fe-9231-82f20c70ddc4)
+
 ## Editing a Photo
 <img width="380" alt="Screenshot 2024-02-06 at 12 41 27 PM" src="https://github.com/wizhaaa/shmood-board/assets/46132945/cc99416e-5d6b-47ac-ba39-37595f42a03e">
 
