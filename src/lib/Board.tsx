@@ -16,6 +16,7 @@ import {useState} from "react";
 
 import {ImageItem} from "./ImageItem";
 import {TextItem} from "./TextItem";
+import {WebItem} from "./WebItem";
 
 import type {Item} from "./Types";
 
@@ -102,6 +103,17 @@ export default function Board(props: BoardProps) {
                     {footerContent}
                   </TextItem>
                 );
+              } else if (item.type === "website") {
+                return (
+                  <WebItem
+                    key={item.id}
+                    item={item}
+                    options={options}
+                    minimal={minimal}
+                  >
+                    {footerContent}
+                  </WebItem>
+                );
               }
             })}
           </SortableContext>
@@ -117,6 +129,8 @@ export default function Board(props: BoardProps) {
       return <ImageItem item={activeItem} />;
     } else if (activeItem?.type === "text") {
       return <TextItem item={activeItem} />;
+    } else if (activeItem?.type === "website") {
+      return <WebItem item={activeItem} />;
     }
   }
 

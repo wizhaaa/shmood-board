@@ -22,6 +22,32 @@ const icon3 =
   "https://img.wattpad.com/24b337b078c3e5e86f2d740a32ac0660c2c4dab7/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f776174747061642d6d656469612d736572766963652f53746f7279496d6167652f4a7746346a694b47336d746462773d3d2d3638333532373230322e313537623231356131653161623938633239313532373333343133362e6a7067?s=fit&w=720&h=720";
 const LOADED_DATA: Item[] = [
   {
+    id: "website1",
+    position: 0,
+    type: "website",
+    title: "Website Embeds.",
+    icon: icon,
+    content:
+      "https://open.spotify.com/embed/playlist/37i9dQZF1DX0XUsuxWHRQd?utm_source=generator",
+  },
+  {
+    id: "figma",
+    position: 0,
+    type: "website",
+    title: "Figma Embeds.",
+    icon: icon,
+    content:
+      "https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2F6z6LWU99zKuMKViSwenOhD%2FReact-Lib-Things%3Ftype%3Ddesign%26node-id%3D40%253A2%26mode%3Ddesign%26t%3DMIWVtuNkJYLXcU4R-1",
+  },
+  {
+    id: "youtube",
+    position: 0,
+    type: "website",
+    title: "Youtube Embed",
+    icon: icon,
+    content: "https://www.youtube.com/embed/F8c2SQ7Fwo4?si=roRLIczePm16EVKc",
+  },
+  {
     id: "1asdfsdaf",
     position: 1,
     type: "image",
