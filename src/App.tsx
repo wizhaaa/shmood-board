@@ -35,7 +35,7 @@ const LOADED_DATA: Item[] = [
     position: 0,
     type: "website",
     title: "Figma Embeds.",
-    icon: icon,
+    icon: icon2,
     content:
       "https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2F6z6LWU99zKuMKViSwenOhD%2FReact-Lib-Things%3Ftype%3Ddesign%26node-id%3D40%253A2%26mode%3Ddesign%26t%3DMIWVtuNkJYLXcU4R-1",
   },
@@ -44,8 +44,16 @@ const LOADED_DATA: Item[] = [
     position: 0,
     type: "website",
     title: "Youtube Embed",
-    icon: icon,
+    icon: icon3,
     content: "https://www.youtube.com/embed/F8c2SQ7Fwo4?si=roRLIczePm16EVKc",
+  },
+  {
+    id: "sane-website",
+    position: 0,
+    type: "website",
+    title: "sane.fyi",
+    icon: icon2,
+    content: "https://www.sane.fyi/",
   },
   {
     id: "1asdfsdaf",

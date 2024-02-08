@@ -62,6 +62,23 @@
   }
 }
 
+@media (min-width: 1850px) {
+  .wz-board {
+    grid-template-columns: 440px 440px 440px 440px;
+  }
+}
+
+@media (min-width: 2250px) {
+  .wz-board {
+    grid-template-columns: 440px 440px 440px 440px 440px;
+  }
+}
+@media (min-width: 2650px) {
+  .wz-board {
+    grid-template-columns: 440px 440px 440px 440px 440px 440px;
+  }
+}
+
 .wz-drag-placeholder {
   width: 400px;
   height: 400px;
@@ -300,6 +317,7 @@
   font-weight: 590;
   font-size: 1.25rem;
   line-height: 1.2;
+  letter-spacing: -0.03em;
 }
 
 .wz-text-item-content-container {
